@@ -594,9 +594,6 @@ function midcast(spell)
 			end
         elseif spell.name:match('Regen') then
             equip(sets.midcast.regen[regenModes.current])
-			if spell.target.name == 'Bubblesandsongs' then
-				windower.send_command('send Bubblesandsongs //gs c nuke sendregen')
-			end
         elseif spell.name:match('Aquaveil') then
             equip(sets.midcast.aquaveil)
         elseif spell.name:match('Stoneskin') then
@@ -1044,9 +1041,6 @@ function apply_grimoire_bonuses(spell, action, spellMap)
 			equip(sets.midcast.aquaAOE)
 		else
 			equip(sets.buff['Accession'])
-		end
-		if spell.name == 'Phalanx' then
-			windower.send_command('send Bubblesandsongs //gs c nuke sendphalanx')
 		end
     end
     if Buff['Rapture'] and (spellMap == 'Cure' or spellMap == 'Curaga') then
