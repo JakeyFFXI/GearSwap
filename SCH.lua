@@ -439,12 +439,10 @@ function get_sets()
     sets.buff['Parsimony'] = {}
     sets.buff['Celerity'] = {feet=RELIC.Feet}
     sets.buff['Alacrity'] = {feet=RELIC.Feet}
-    sets.buff['Klimaform'] = {
-		head = "Agwu's Cap", --with empy feet +2 this beats relic head
-		feet = EMPY.Feet}	
-    sets.buff.KlimaDark = {
-		head = "Pixie Hairpin +1", --still want pixie for dark based spells
-		feet = EMPY.Feet}
+    sets.buff['Klimaform'] = { 
+	feet = EMPY.Feet}	
+    sets.buff.KlimaNuke= {--with empy feet +2 this beats relic head but don't need for everything
+	head = "Agwu's Cap",}
     -- Ebulience set empy now as we get better damage out of a good Merlinic head
     sets.buff['Ebullience'] = {} -- put empy head in once +2
    
