@@ -123,6 +123,8 @@ time_start = 0
 -- Standard Mode
 hub_mode_std = [[\cs(255, 115, 0)Modes: \cr              
 \cs(255, 64, 64)${key_bind_idle} \cs(200, 200, 200)Idle:\cr \cs(125,125,255)${player_current_idle|Refresh}
+\cs(255, 255, 64)${key_bind_mainweapon} \cs(200, 200, 200)Main Weapon:\cr \cs(125,125,255)${player_current_mainweapon|Crocea Mors}
+\cs(255, 255, 64)${key_bind_subweapon} \cs(200, 200, 200)Sub Weapon:\cr \cs(125,125,255)${player_current_subweapon|Ammurapi Shield}
 \cs(255, 64, 64)${key_bind_casting} \cs(200, 200, 200)Casting:\cr \cs(125,125,255)${player_current_casting|Normal}
 \cs(255, 64, 64)${key_bind_regen} \cs(200, 200, 200)Regen:\cr \cs(125,125,255)${player_current_regen|Hybrid}
 ]]
@@ -182,6 +184,8 @@ function validateTextInformation()
         main_text_hub.player_current_idle = idleModes.current
     end
     main_text_hub.player_current_casting = nukeModes.current
+    main_text_hub.player_current_mainweapon = mainWeapon.current
+    main_text_hub.player_current_subweapon = subWeapon.current
     main_text_hub.toggle_element_cycle = elements.current
     main_text_hub.player_current_regen = regenModes.current    
     main_text_hub.toggle_sc_level = wantedSc
@@ -625,35 +629,38 @@ function midcast(spell)
     -- Remember those WS Sets we defined? :) sets.me["Insert Weaponskill"] are basically how I define any non-magic spells sets, aka, WS, JA, Idles, etc.
     elseif sets.me[spell.name] then
         equip(sets.me[spell.name])
-		if spell.name == 'Omniscience' or spell.name == 'Cataclysm'then
-		-- Dark day and dark weather --for nin only dark has enough affinity to change for day + weather
-			if spell.element == world.day_element and spell.element == world.weather_element then
-				equip(sets.midcast.Obi)
-			-- Double dark weather aka Dynamis and not lights day
-			elseif spell.element == world.weather_element and get_weather_intensity() == 2  and world.day_element ~= "Light" then 
-				equip(sets.midcast.Obi)
-			else
-				equip(sets.midcast.Orpheus)                
-			end
-			apply_klimaform(spell, action, spellMap)
+	if spell.name == 'Omniscience' or spell.name == 'Cataclysm'then
+	-- Dark day and dark weather --for nin only dark has enough affinity to change for day + weather
+		if spell.element == world.day_element and spell.element == world.weather_element then
+			equip(sets.midcast.Obi)
+		-- Double dark weather aka Dynamis and not lights day
+		elseif spell.element == world.weather_element and get_weather_intensity() == 2  and world.day_element ~= "Light" then 
+			equip(sets.midcast.Obi)
+		else
+			equip(sets.midcast.Orpheus)                
 		end
-		if  spell.name == 'Earth Crusher' then
-				-- Double weather not winds day
-			if spell.element == world.weather_element and get_weather_intensity() == 2 and world.day_element ~= "Wind" then
-				equip(sets.midcast.Obi)
-			else
-				equip(sets.midcast.Orpheus)                
-			end
-			apply_klimaform(spell, action, spellMap)
+		apply_klimaform(spell, action, spellMap)
+	end
+	if  spell.name == 'Earth Crusher' then
+			-- Double weather not winds day
+		if spell.element == world.weather_element and get_weather_intensity() == 2 and world.day_element ~= "Wind" then
+			equip(sets.midcast.Obi)
+		else
+			equip(sets.midcast.Orpheus)                
 		end
+		apply_klimaform(spell, action, spellMap)
+	end
     end
-	if spell.name == 'Kaustra' then
-		if mBurst.value == true then
+    if player.TP > 2900 then
+	equip(sets.htp[spell.name])
+    end
+    if spell.name == 'Kaustra' then
+	if mBurst.value == true then
             equip(sets.midcast.Kaust.MB)
         else
             equip(sets.midcast.Kaust.normal)
         end
-	end
+    end
     
     -- Put the JSE in place.
     if spell.action_type == 'Magic' then
@@ -806,8 +813,9 @@ function idle()
     end
     -- Checks MP for Fucho-no-Obi
     if player.mpp < 51 then
-        equip(sets.me.latent_refresh)          
+        equip(sets.me.latent_refresh)   
     end
+    equip({main = mainWeapon.current, sub = subWeapon.current})
 end
  
 function status_change(new,old)
