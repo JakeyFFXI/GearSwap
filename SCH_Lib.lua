@@ -594,6 +594,9 @@ function midcast(spell)
 			end
         elseif spell.name:match('Regen') then
             equip(sets.midcast.regen[regenModes.current])
+			if spell.target.name == 'Bubblesandsongs' then
+				windower.send_command('send Bubblesandsongs //gs c nuke sendregen')
+			end
         elseif spell.name:match('Aquaveil') then
             equip(sets.midcast.aquaveil)
         elseif spell.name:match('Stoneskin') then
@@ -632,6 +635,7 @@ function midcast(spell)
 			else
 				equip(sets.midcast.Orpheus)                
 			end
+			apply_klimaform(spell, action, spellMap)
 		end
 		if  spell.name == 'Earth Crusher' then
 				-- Double weather not winds day
@@ -640,12 +644,8 @@ function midcast(spell)
 			else
 				equip(sets.midcast.Orpheus)                
 			end
+			apply_klimaform(spell, action, spellMap)
 		end
-    end
-    
-    -- Put the JSE in place.
-    if spell.action_type == 'Magic' then
-        apply_grimoire_bonuses(spell, action, spellMap)
     end
 	if spell.name == 'Kaustra' then
 		if mBurst.value == true then
@@ -654,6 +654,13 @@ function midcast(spell)
             equip(sets.midcast.Kaust.normal)
         end
 	end
+    
+    -- Put the JSE in place.
+    if spell.action_type == 'Magic' then
+		apply_klimaform(spell, action, spellMap) --applies to ws too
+        apply_grimoire_bonuses(spell, action, spellMap)
+    end
+	
 
     -- Obi vs orpheus for elemental magic based on engaged status assuming engaged = melee range
 	if player.status == 'Engaged' and (spell.skill == 'Elemental Magic' or spell.name:match('Drain') or spell.name:match('Aspir')) and spellMap ~= 'Helix' and spellMap ~= 'Helix2' and spellMap ~= 'DarkHelix2' and spellMap ~= 'LightHelix2' then
@@ -727,37 +734,40 @@ function midcast(spell)
 
     -- Dark based Helix gets "pixie hairpin +1"
     if spellMap == 'DarkHelix2'then
-	if mBurst.value == true then
+		if mBurst.value == true then
             equip(sets.midcast.DarkHelix2.MB)
         else
             equip(sets.midcast.DarkHelix2.normal)
         end
-	apply_grimoire_bonuses(spell, action, spellMap)
+		apply_klimaform(spell, action, spellMap)
+		apply_grimoire_bonuses(spell, action, spellMap)
     end
 
     if spellMap == 'LightHelix2'then
-	if mBurst.value == true then
+		if mBurst.value == true then
             equip(sets.midcast.LightHelix2.MB)
         else
             equip(sets.midcast.LightHelix2.normal)
         end
-	apply_grimoire_bonuses(spell, action, spellMap)
+		apply_klimaform(spell, action, spellMap)
+		apply_grimoire_bonuses(spell, action, spellMap)
     end
     if spellMap == 'Helix2'then
-	if mBurst.value == true then
+		if mBurst.value == true then
             equip(sets.midcast.Helix2.MB)
         else
             equip(sets.midcast.Helix2.normal)
         end
-	apply_grimoire_bonuses(spell, action, spellMap)
+		apply_klimaform(spell, action, spellMap)
+		apply_grimoire_bonuses(spell, action, spellMap)
     end
     if spellMap == 'Helix' then --I use occult accumen set for these and only use for SCing so don't need to boost damage
-	if mBurst.value == true then
+		if mBurst.value == true then
             equip(sets.midcast.Helix.MB)
         else
             equip(sets.midcast.Helix.normal)
         end
-	--apply_grimoire_bonuses(spell, action, spellMap)
+		--apply_grimoire_bonuses(spell, action, spellMap)
     end
 	
 end
@@ -1059,14 +1069,7 @@ function apply_grimoire_bonuses(spell, action, spellMap)
     if Buff['Rapture'] and (spellMap == 'Cure' or spellMap == 'Curaga') then
         equip(sets.buff['Rapture'])
     end
-    if spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' and spell.english ~= 'Impact' then
-        if Buff['Klimaform'] and spell.element == world.weather_element then
-		if spell.element == 'Dark'  then --7
-			equip(sets.buff.KlimaDark)
-		else
-			equip(sets.buff['Klimaform'])
-		end
-        end
+    if spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' and spell.english ~= 'Impact' then 
 		if Buff['Ebullience'] and spell.english ~= 'Impact' then
             equip(sets.buff['Ebullience'])
         end
@@ -1079,6 +1082,17 @@ function apply_grimoire_bonuses(spell, action, spellMap)
     if Buff['Parsimony'] then equip(sets.buff['Parsimony']) end
     if Buff['Celerity'] then equip(sets.buff['Celerity']) end
     if Buff['Alacrity'] then equip(sets.buff['Alacrity']) end
+end
+
+function apply_klimaform(spell, action, spellMap)
+	if spell.skill ~= 'Healing Magic' and spell.skill ~= 'Enfeebling Magic' and spellMap ~= 'ElementalEnfeeble' and spell.english ~= 'Impact'then
+		if Buff['Klimaform'] and spell.element == world.weather_element then --works for ws too
+			equip(sets.buff['Klimaform'])
+			if spell.element ~= 'Dark' and spell.action_type == 'Magic' then 
+				equip(sets.buff.KlimaNuke)
+			end
+		end
+	end
 end
 -- General handling of strategems in an Arts-agnostic way.
 -- Format: gs c scholar <strategem>
