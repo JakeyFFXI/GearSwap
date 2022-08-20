@@ -79,6 +79,8 @@ include('Modes.lua')
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
 -- to define sets for regen if you add more modes, name them: sets.midcast.regen.mymode and add 'mymode' in the group.
 -- Same idea for nuke modes. 
+mainWeapon = M('Tupsimati','Musa','Chatoyant Staff')
+subWeapon = M('Khonsu','Rigorous Grip +1')
 idleModes = M('refresh', 'dt')
 regenModes = M('hybrid', 'duration')
 -- To add a new mode to nuking, you need to define both sets: sets.midcast.nuking.mynewmode as well as sets.midcast.MB.mynewmode
@@ -102,7 +104,9 @@ hud_font = 'Impact'
     windower.send_command('bind !` input /ma Stun <t>') 		-- Alt-` Quick Stun Shortcut.
     windower.send_command('bind !home gs c sc tier')				-- home to change SC tier between Level 1 or Level 2 SC
     windower.send_command('bind end gs c toggle regenmode')		-- end to change Regen Mode	
-    --windower.send_command('bind f10 gs c toggle mb')            -- F10 toggles Magic Burst Mode on / off.
+    windower.send_command('bind !f8 gs c toggle mainweapon')	-- Alt-F8 Toggle Main Weapon
+    windower.send_command('bind ^f8 gs c toggle subweapon')		-- CTRL-F8 Toggle sub Weapon.	
+    windower.send_command('bind !f10 gs c toggle mb')            -- F10 toggles Magic Burst Mode on / off.
     windower.send_command('bind f11 gs c toggle nukemode')		-- Alt-F10 to change Nuking Mode
     windower.send_command('bind ^F11 gs c toggle matchsc')      -- CTRL-F10 to change Match SC Mode
     --windower.send_command('bind !end gs c hud lite')            -- Alt-End to toggle light hud version   
@@ -166,6 +170,7 @@ function get_sets()
     -- All sets that are equipped to faciliate my avatar's behaviour or abilities are under 'avatar', eg, Perpetuation, Blood Pacts, etc
       
     sets.me = {}        		-- leave this empty
+    sets.htp = {}
     sets.buff = {} 				-- leave this empty
     sets.me.idle = {}			-- leave this empty
 	
@@ -249,8 +254,6 @@ function get_sets()
 	
     -- Your idle set
     sets.me.idle.refresh = {
-		main		=	"Tupsimati",
-		sub			=	"Khonsu",
 		ammo		=	"Homiliary",
 		head		=	MerlHead.Ref,
 		body		=	"Jhakri Robe +2",
@@ -396,7 +399,24 @@ function get_sets()
 		back		=	Lugh.Omni
     } 
 	
-	sets.me["Cataclysm"] = sets.me["Omniscience"] 
+	sets.me["Cataclysm"] = {
+		ammo		=	"Oshasha's Treatise",
+		head		=	"Pixie Hairpin +1",
+		body		=	"Nyame Mail",
+		hands		=	"Jhakri Cuffs +2",
+		legs		=	"Agwu's Slops",
+		feet		=	"Agwu's Pigaches",
+		neck		=	"Saevus Pendant +1",
+		waist		=	"Orpheus's Sash",
+		left_ear	=	"Regal Earring",
+		right_ear	=	{ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
+		left_ring	=	"Archon Ring",
+		right_ring	=	"Epaminondas's Ring",
+		back		=	Lugh.Cata
+    } 
+	sets.htp["Cataclysm"] = { 
+		right_ear	=	"Malignance Earring",
+	}
 	sets.me["Sunburst"] = sets.me["Omniscience"] 
 	sets.me["Starburst"] = sets.me["Omniscience"] 
 	
@@ -463,8 +483,6 @@ function get_sets()
     -- Generic Casting Set that all others take off of. Here you should add all your fast cast 
     -- Grimoire: 10(cap:25) / rdm: 15
     sets.precast.casting = {
-		main		=	"Tupsimati",
-		sub		=	"Khonsu",
 		ammo		=	"Impatiens",					
 		head		=	RELIC.Head,
 		body		=	"Zendik Robe",						--13
@@ -563,8 +581,6 @@ function get_sets()
 	sets.midcast["Sublimation"] = sets.precast["Sublimation"] 
 	
     sets.midcast.nuking.normal = {
-		main		=	"Tupsimati",
-		sub		=	"Khonsu",
        	        ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
 		body		=	"Agwu's Robe",--"Seidr Cotehardie",
@@ -612,8 +628,6 @@ function get_sets()
 	
 	
     sets.midcast.nuking.acc = {
-		main		=	"Tupsimati",
-		sub			=	"Khonsu",
 		ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
 		body		=	AF.Body,
