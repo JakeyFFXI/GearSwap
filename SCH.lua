@@ -175,7 +175,7 @@ function get_sets()
     EMPY = {}       -- leave this empty
 	
 		-- Fill this with your own JSE. 
-    --Academic's
+       --Academic's
     AF.Head		=	"Acad. Mortar. +3"
     AF.Body		=	"Acad. Gown +3"
     AF.Hands	=	"Acad. Bracers +3"
@@ -194,7 +194,7 @@ function get_sets()
     EMPY.Body		=	""
     EMPY.Hands		=	"Arbatel Bracers +1"
     EMPY.Legs		=	""
-    EMPY.Feet		=	""
+    EMPY.Feet		=	"Arbatel Loafers +2"
 	
 	Lugh = {}
 	Lugh.INTMAB ={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Damage taken-5%',}}
@@ -221,6 +221,7 @@ function get_sets()
 	
 	MerlHead = {}
 	MerlHead.MB = { name="Merlinic Hood", augments={'Mag. Acc.+16 "Mag.Atk.Bns."+16','Magic burst dmg.+10%','INT+7','"Mag.Atk.Bns."+8',}}
+	MerlHead.Ref = { name="Merlinic Hood", augments={'"Fast Cast"+2','Accuracy+17','"Refresh"+2',}}
 	
 	MerlBody = {}
 	MerlBody.FC = { name="Merlinic Jubbah", augments={'"Fast Cast"+7','"Mag.Atk.Bns."+8',}}
@@ -230,6 +231,7 @@ function get_sets()
 	MerlLegs.MB = { name="Merlinic Shalwar", augments={'"Mag.Atk.Bns."+30','Magic burst dmg.+10%','INT+9','Mag. Acc.+5',}}
 	MerlLegs.TH = { name="Merlinic Shalwar", augments={'Accuracy+3','AGI+3','"Treasure Hunter"+2','Mag. Acc.+19 "Mag.Atk.Bns."+19',}}
 	MerlLegs.WS = { name="Merlinic Shalwar", augments={'Pet: "Mag.Atk.Bns."+9','Mag. Acc.+23','Weapon skill damage +10%','Accuracy+12 Attack+12','Mag. Acc.+12 "Mag.Atk.Bns."+12',}}
+	MerlLegs.Ref = { name="Merlinic Shalwar", augments={'"Store TP"+2','Pet: CHR+15','"Refresh"+2',}}
 	
 	MerlFeet = {}
 	MerlFeet.FC = { name="Merlinic Crackows", augments={'"Mag.Atk.Bns."+9','"Fast Cast"+7',}}
@@ -245,23 +247,22 @@ function get_sets()
 	ChironicFeet.Phalanx = { name="Chironic Slippers", augments={'Pet: STR+3','MND+10','Phalanx +5','Mag. Acc.+1 "Mag.Atk.Bns."+1',}}
 	ChironicFeet.Ref = { name="Chironic Slippers", augments={'Pet: Mag. Acc.+17','Pet: "Dbl.Atk."+2 Pet: Crit.hit rate +2','"Refresh"+2','Accuracy+10 Attack+10',}}
 	
-	
     -- Your idle set
     sets.me.idle.refresh = {
 		main		=	"Tupsimati",
 		sub			=	"Khonsu",
 		ammo		=	"Homiliary",
-		head		=	"Befouled Crown",
+		head		=	MerlHead.Ref,
 		body		=	"Jhakri Robe +2",
 		hands		=	MerlHands.Ref,
-		legs		=	"Assid. Pants +1",
+		legs		=	MerlLegs.Ref,
 		feet		=	"Herald's Gaiters",
 		neck		=	"Rep. Plat. Medal",
 		waist		=	"Fucho-no-Obi",
 		left_ear	=	"Infused Earring",
 		right_ear	=	"Savant's Earring",
-        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
-        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        	left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	Lugh.AccHas
     }
 
@@ -380,7 +381,7 @@ function get_sets()
     }
 	
 	sets.me["Omniscience"] = {
-		ammo		=	"Pemphredo Tathlum",
+		ammo		=	"Oshasha's Treatise",
 		head		=	"Pixie Hairpin +1",
 		body		=	"Nyame Mail",
 		hands		=	"Jhakri Cuffs +2",
@@ -428,19 +429,24 @@ function get_sets()
     ------------	
     -- Gear that needs to be worn to **actively** enhance a current player buff.
     -- Fill up following with your avaible pieces.
-    sets.buff['Rapture'] = {head="Arbatel bonnet +1"}
-    sets.buff['Perpetuance'] = {main = "Musa", hands="Arbatel Bracers +1"}
+    sets.buff['Rapture'] = {head=EMPY.Head}
+    sets.buff['Perpetuance'] = {main = "Musa", hands=EMPY.Hands}
 	sets.buff['Accession'] = {}
     sets.buff['Immanence'] = set_combine(sets.me.Occult,{
-	hands="Arbatel Bracers +1"
+	hands=EMPY.Hands
 	})
     sets.buff['Penury'] = {}
     sets.buff['Parsimony'] = {}
-    sets.buff['Celerity'] = {feet="Peda. Loafers +3"}
-    sets.buff['Alacrity'] = {feet="Peda. Loafers +3"}
-    sets.buff['Klimaform'] = {}	
+    sets.buff['Celerity'] = {feet=RELIC.Feet}
+    sets.buff['Alacrity'] = {feet=RELIC.Feet}
+    sets.buff['Klimaform'] = {
+		head = "Agwu's Cap", --with empy feet +2 this beats relic head
+		feet = EMPY.Feet}	
+    sets.buff.KlimaDark = {
+		head = "Pixie Hairpin +1", --still want pixie for dark based spells
+		feet = EMPY.Feet}
     -- Ebulience set empy now as we get better damage out of a good Merlinic head
-    sets.buff['Ebullience'] = {} -- I left it there still if it becomes needed so the SCH.lua file won't need modification should you want to use this set
+    sets.buff['Ebullience'] = {} -- put empy head in once +2
    
 	
 	
@@ -450,8 +456,8 @@ function get_sets()
     sets.precast = {}   		-- Leave this empty  
     sets.midcast = {}    		-- Leave this empty  
     sets.aftercast = {}  		-- Leave this empty  
-	sets.midcast.nuking = {}	-- leave this empty
-	sets.midcast.MB	= {}		-- leave this empty      
+    sets.midcast.nuking = {}	-- leave this empty
+    sets.midcast.MB	= {}		-- leave this empty      
     ----------
     -- Precast
     ----------
@@ -460,7 +466,7 @@ function get_sets()
     -- Grimoire: 10(cap:25) / rdm: 15
     sets.precast.casting = {
 		main		=	"Tupsimati",
-		sub			=	"Khonsu",
+		sub		=	"Khonsu",
 		ammo		=	"Impatiens",					
 		head		=	RELIC.Head,
 		body		=	"Zendik Robe",						--13
@@ -558,15 +564,15 @@ function get_sets()
 	
 	sets.midcast["Sublimation"] = sets.precast["Sublimation"] 
 	
-    sets.midcast.nuking.normal = { --optimized for tier 3-5
+    sets.midcast.nuking.normal = {
 		main		=	"Tupsimati",
-		sub			=	"Khonsu",
-        ammo		=	"Ghastly Tathlum +1",
+		sub		=	"Khonsu",
+       	        ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
 		body		=	"Agwu's Robe",--"Seidr Cotehardie",
-		hands		=	"Amalric Gages +1",
+		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Amalric Nails +1",
+		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
