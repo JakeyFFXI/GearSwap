@@ -481,11 +481,11 @@ function update_sublimation()
     else
         refreshType = "refresh"
     end
-    if midaction() then
+    --[[if midaction() then
         return
     else
         idle()
-    end
+    end]]
 end
 
 function buff_refresh(name,buff_details)
@@ -727,33 +727,37 @@ function midcast(spell)
 
     -- Dark based Helix gets "pixie hairpin +1"
     if spellMap == 'DarkHelix2'then
-		if mBurst.value == true then
+	if mBurst.value == true then
             equip(sets.midcast.DarkHelix2.MB)
         else
             equip(sets.midcast.DarkHelix2.normal)
         end
+	apply_grimoire_bonuses(spell, action, spellMap)
     end
 
     if spellMap == 'LightHelix2'then
-		if mBurst.value == true then
+	if mBurst.value == true then
             equip(sets.midcast.LightHelix2.MB)
         else
             equip(sets.midcast.LightHelix2.normal)
         end
+	apply_grimoire_bonuses(spell, action, spellMap)
     end
     if spellMap == 'Helix2'then
-		if mBurst.value == true then
+	if mBurst.value == true then
             equip(sets.midcast.Helix2.MB)
         else
             equip(sets.midcast.Helix2.normal)
         end
+	apply_grimoire_bonuses(spell, action, spellMap)
     end
-    if spellMap == 'Helix' then
-		if mBurst.value == true then
+    if spellMap == 'Helix' then --I use occult accumen set for these and only use for SCing so don't need to boost damage
+	if mBurst.value == true then
             equip(sets.midcast.Helix.MB)
         else
             equip(sets.midcast.Helix.normal)
         end
+	--apply_grimoire_bonuses(spell, action, spellMap)
     end
 	
 end
@@ -762,7 +766,13 @@ function aftercast(spell)
     -- Then initiate idle function to check which set should be equipped
     update_active_strategems()
     update_sublimation()
-    idle()
+	if spell.name == 'Sublimation' and not buffactive['Sublimation: Activated'] then
+		equip(sets.me.idle.sublimation)
+	elseif spell.name == 'Sublimation' and buffactive['Sublimation: Activated'] then
+		equip(sets.me.idle[idleModes.value]) 
+	else
+		idle()
+	end
 end
 
 function idle()
@@ -1042,19 +1052,26 @@ function apply_grimoire_bonuses(spell, action, spellMap)
 		else
 			equip(sets.buff['Accession'])
 		end
+		if spell.name == 'Phalanx' then
+			windower.send_command('send Bubblesandsongs //gs c nuke sendphalanx')
+		end
     end
     if Buff['Rapture'] and (spellMap == 'Cure' or spellMap == 'Curaga') then
         equip(sets.buff['Rapture'])
     end
-    if spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' then
-        if Buff['Ebullience'] and spell.english ~= 'Impact' then
+    if spell.skill == 'Elemental Magic' and spellMap ~= 'ElementalEnfeeble' and spell.english ~= 'Impact' then
+        if Buff['Klimaform'] and spell.element == world.weather_element then
+		if spell.element == 'Dark'  then --7
+			equip(sets.buff.KlimaDark)
+		else
+			equip(sets.buff['Klimaform'])
+		end
+        end
+		if Buff['Ebullience'] and spell.english ~= 'Impact' then
             equip(sets.buff['Ebullience'])
         end
         if Buff['Immanence'] and spell.english ~= 'Impact' then
             equip(sets.buff['Immanence'])
-        end
-        if Buff['Klimaform'] and spell.element == world.weather_element then
-            equip(sets.buff['Klimaform'])
         end
     end
 
@@ -1063,7 +1080,6 @@ function apply_grimoire_bonuses(spell, action, spellMap)
     if Buff['Celerity'] then equip(sets.buff['Celerity']) end
     if Buff['Alacrity'] then equip(sets.buff['Alacrity']) end
 end
-
 -- General handling of strategems in an Arts-agnostic way.
 -- Format: gs c scholar <strategem>
 
