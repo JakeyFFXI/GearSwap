@@ -195,7 +195,7 @@ function get_sets()
     RELIC.Feet		=	"Peda. Loafers +3"
 
     --Arbatel
-    EMPY.Head		=	"Arbatel Bonnet +1"
+    EMPY.Head		=	"Arbatel Bonnet +2"
     EMPY.Body		=	""
     EMPY.Hands		=	"Arbatel Bracers +1"
     EMPY.Legs		=	""
@@ -281,12 +281,12 @@ function get_sets()
     })   
     -- Your idle DT set
     sets.me.idle.dt = set_combine(sets.me.idle.refresh,{
-		head		=	"Nyame Helm",
+		head		=	EMPY.Head,
 		body		=	"Agwu's Robe",
 		hands		=	"Nyame Gauntlets",
 		legs		=	"Nyame Flanchard",
 		feet		=	"Nyame Sollerets",
-		neck		=	"Loricate Torque +1",
+		neck		=	"Rep. Plat. Medal",
 		left_ear	=	"Odnowa Earring +1",
 		back		=	Lugh.AccHas
     })  
@@ -306,7 +306,7 @@ function get_sets()
 		head		=	"Nyame Helm",
 		body		=	"Nyame Mail",
 		hands		=	"Gazu Bracelet +1",
-		legs		=	"Nyame Flanchard",
+		legs		=	"Jhakri Slops +2",
 		feet		=	"Nyame Sollerets",
 		neck		=	"Combatant's Torque",
 		waist		=	"Windbuffet Belt +1",
@@ -546,16 +546,9 @@ function get_sets()
     -- Ability Precasting
     ---------------------
 
-    sets.precast["Tabula Rasa"] = {legs="Peda. Pants +3"}
-    sets.precast["Enlightenment"] = {body="Peda. Gown +3"}	 
-    sets.precast["Sublimation"] = {    
-		--main="Siriti",
-		--sub="Genbu's Shield",
-		head		=	AF.Head,
-		body		=	RELIC.Body,
-		right_ear	=	"Savant's Earring",
-		waist		=	"Embla Sash"
-		}	  
+    sets.precast["Tabula Rasa"] = {legs=RELIC.Legs}
+    sets.precast["Enlightenment"] = {body=RELIC.Body}	 
+    sets.precast["Sublimation"] = sets.me.idle.sublimation
 
 	
 	----------
