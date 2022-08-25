@@ -629,44 +629,40 @@ function midcast(spell)
     -- Remember those WS Sets we defined? :) sets.me["Insert Weaponskill"] are basically how I define any non-magic spells sets, aka, WS, JA, Idles, etc.
     elseif sets.me[spell.name] then
         equip(sets.me[spell.name])
-	if spell.name == 'Omniscience' or spell.name == 'Cataclysm'then
-	-- Dark day and dark weather --for nin only dark has enough affinity to change for day + weather
-		if spell.element == world.day_element and spell.element == world.weather_element then
-			equip(sets.midcast.Obi)
-		-- Double dark weather aka Dynamis and not lights day
-		elseif spell.element == world.weather_element and get_weather_intensity() == 2  and world.day_element ~= "Light" then 
-			equip(sets.midcast.Obi)
-		else
-			equip(sets.midcast.Orpheus)                
+		if spell.name == 'Omniscience' or spell.name == 'Cataclysm'then
+		-- Dark day and dark weather --for nin only dark has enough affinity to change for day + weather
+			if spell.element == world.day_element and spell.element == world.weather_element then
+				equip(sets.midcast.Obi)
+			-- Double dark weather aka Dynamis and not lights day
+			elseif spell.element == world.weather_element and get_weather_intensity() == 2  and world.day_element ~= "Light" then 
+				equip(sets.midcast.Obi)
+			else
+				equip(sets.midcast.Orpheus)                
+			end
+			apply_klimaform(spell, action, spellMap)
 		end
-		apply_klimaform(spell, action, spellMap)
-	end
-	if  spell.name == 'Earth Crusher' then
-			-- Double weather not winds day
-		if spell.element == world.weather_element and get_weather_intensity() == 2 and world.day_element ~= "Wind" then
-			equip(sets.midcast.Obi)
-		else
-			equip(sets.midcast.Orpheus)                
+		if  spell.name == 'Earth Crusher' then
+				-- Double weather not winds day
+			if spell.element == world.weather_element and get_weather_intensity() == 2 and world.day_element ~= "Wind" then
+				equip(sets.midcast.Obi)
+			else
+				equip(sets.midcast.Orpheus)                
+			end
+			apply_klimaform(spell, action, spellMap)
 		end
-		apply_klimaform(spell, action, spellMap)
-	end
+		if player.TP > 2900 then
+			equip(sets.htp[spell.name])
+		end
     end
-    if player.TP > 2900 then
-	equip(sets.htp[spell.name])
-    end
-    if spell.name == 'Kaustra' then
-	if mBurst.value == true then
+	if spell.name == 'Kaustra' then
+		if mBurst.value == true then
             equip(sets.midcast.Kaust.MB)
         else
             equip(sets.midcast.Kaust.normal)
         end
-    end
+	end
     
-    -- Put the JSE in place.
-    if spell.action_type == 'Magic' then
-		apply_klimaform(spell, action, spellMap) --applies to ws too
-        apply_grimoire_bonuses(spell, action, spellMap)
-    end
+   
 	
 
     -- Obi vs orpheus for elemental magic based on engaged status assuming engaged = melee range
@@ -776,6 +772,11 @@ function midcast(spell)
         end
 		--apply_grimoire_bonuses(spell, action, spellMap)
     end
+ -- Put the JSE in place.
+    if spell.action_type == 'Magic' then
+	apply_klimaform(spell, action, spellMap) 
+        apply_grimoire_bonuses(spell, action, spellMap)
+    end
 	
 end
  
@@ -784,7 +785,11 @@ function aftercast(spell)
     update_active_strategems()
     update_sublimation()
 	if spell.name == 'Sublimation' and not buffactive['Sublimation: Activated'] then
-		equip(sets.me.idle.sublimation)
+		if buffactive["Sublimation: Complete"] then
+			equip(sets.me.idle[idleModes.value])
+		else
+			equip(sets.me.idle.sublimation)
+		end
 	elseif spell.name == 'Sublimation' and buffactive['Sublimation: Activated'] then
 		equip(sets.me.idle[idleModes.value]) 
 	else
@@ -1264,7 +1269,7 @@ windower.register_event('prerender', function()
 			validateTextInformation()
         else
             elements:set(oldElement)
-            mBurst:set(mBurstOldValue)
+            mBurst:set(false)--mBurst:set(mBurstOldValue)
             validateTextInformation()
 		end
 	end
