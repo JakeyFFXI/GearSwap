@@ -71,18 +71,19 @@ enfeeb_maps = {
     ['Bio']='potency', ['Bio II']='potency', ['Bio III']='potency',
     ['Paralyze']='mndpot', ['Paralyze II']='mndpot', 
     ['Slow']='mndpot', ['Slow II']='mndpot', 
-    ['Adle']='mndpot', ['Adle II']='mndpot',
+    ['Adle']='addle', ['Adle II']='addle',--may seperate adle because no immunobreak
     ['Sleep']='maccINT', ['Sleep II']='maccINT', ['Sleepga']='maccINT', 
     ['Silence']='macc', 
     ['Inundation']='macc', 
-    ['Dispel']='maccINT', 
+    ['Dispel']='disp', 
+	['Impact'] = 'imp',
     ['Break']='macc', 
     ['Bind']='macc', 
     ['Blind']='maccINT', ['Blind II']='intpot', 
     ['Gravity']='potency', ['Gravity II']='potency',
 	-- We leave Fazzle and FrazzleII as pure macc to help land it in cases its a high resist. 
 	-- This lets us follow up with a high potency Frazzle3 
-    ['Frazzle']='macc', ['Frazzle II']='macc', ['Frazzle III']='skillmndpot', 
+    ['Frazzle']='macc', ['Frazzle II']='macc', ['Frazzle III']='frazz', 
     ['Distract']='mndpot', ['Distract II']='mndpot', ['Distract III']='skillmndpot', 
     ['Poison']='skillpot', ['Poison II']='skillpot', ['Poisonga']='skillpot',
 }
@@ -650,28 +651,32 @@ function midcast(spell,action)
         end
 
     -- Enfeebling
-    elseif spell.skill == 'Enfeebling Magic' then
+     elseif spell.skill == 'Enfeebling Magic' or spell.name == 'Impact' then
         if player.status == "Engaged" then
 			equip(sets.midcast.Enfeebling[enfeebMap])
-			-- if saboteur use empy hands if potency matters, leave max macc on for macc spells
-			if Buff['Saboteur'] and (enfeeb_maps[spell.name] ~= 'macc' and enfeeb_maps[spell.name] ~= 'maccINT') then
-				equip({hands=EMPY.Hands})
-			end 
-			if Buff['Stymie'] or Buff['Elemental Seal'] and not Buff['Saboteur'] then --max duration/potency
-				equip(sets.midcast.Enfeebling.Duration)
-			elseif Buff['Stymie'] or Buff['Elemental Seal'] and Buff['Saboteur'] then --slightly longer duration when saboteur is up
-				equip(sets.midcast.Enfeebling.DurationSab)
+			-- if saboteur use empy hands can clarify not to for spells that don't care about potency/duration
+			if spell.name ~= 'Impact' and spell.name ~= 'Dispel' then 
+				if Buff['Saboteur'] then
+					equip({hands=EMPY.Hands})
+				end 
+				if Buff['Stymie'] or Buff['Elemental Seal'] and not Buff['Saboteur'] then --max duration/potency
+					equip(sets.midcast.Enfeebling.Duration)
+				elseif Buff['Stymie'] or Buff['Elemental Seal'] and Buff['Saboteur'] then --slightly longer duration when saboteur is up
+					equip(sets.midcast.Enfeebling.DurationSab)
+				end
 			end
 		else
 			equip(sets.midcast.EnfeeblingS[enfeebMap])
 			-- if saboteur use empy hands if potency matters, leave max macc on for macc spells
-			if Buff['Saboteur'] and (enfeeb_maps[spell.name] ~= 'macc' and enfeeb_maps[spell.name] ~= 'maccINT') then
-				equip({hands=EMPY.Hands})
-			end 
-			if Buff['Stymie'] or Buff['Elemental Seal'] and not Buff['Saboteur'] then --max duration/potency
-				equip(sets.midcast.Enfeebling.Duration)
-			elseif Buff['Stymie'] or Buff['Elemental Seal'] and Buff['Saboteur'] then
-				equip(sets.midcast.Enfeebling.DurationSab)
+			if spell.name ~= 'Impact' and spell.name ~= 'Dispel' then
+				if Buff['Saboteur'] and (enfeeb_maps[spell.name] ~= 'macc' and enfeeb_maps[spell.name] ~= 'maccINT') then
+					equip({hands=EMPY.Hands})
+				end 
+				if Buff['Stymie'] or Buff['Elemental Seal'] and not Buff['Saboteur'] then --max duration/potency
+					equip(sets.midcast.Enfeebling.Duration)
+				elseif Buff['Stymie'] or Buff['Elemental Seal'] and Buff['Saboteur'] then
+					equip(sets.midcast.Enfeebling.DurationSab)
+				end
 			end
 		end
 		
@@ -1429,6 +1434,8 @@ function downgradenuke( spell )
             newspell = nukes.t2[elements.current]
         elseif spell.name == nukes.t2[elements.current] then
             newspell = nukes.t1[elements.current]
+	elseif spell.name == nukes.t1[elements.current] then
+            newspell = ""
         end
         send_command('input /ma "'..newspell..'"')
     end
