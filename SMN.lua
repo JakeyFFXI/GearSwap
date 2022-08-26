@@ -760,6 +760,7 @@ function get_sets()
     -- Enfeebling
 
 	sets.midcast.Enfeebling = {} -- leave Empty
+	sets.midcast.cure = {}
 	--Type A-pure macc no potency mod for sleep silence dispel Frazzle II
     sets.midcast.Enfeebling.MND = {
 		head		=	"Amalric Coif +1",
