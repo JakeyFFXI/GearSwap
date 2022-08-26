@@ -669,7 +669,7 @@ function midcast(spell,action)
 			equip(sets.midcast.EnfeeblingS[enfeebMap])
 			-- if saboteur use empy hands if potency matters, leave max macc on for macc spells
 			if spell.name ~= 'Impact' and spell.name ~= 'Dispel' then
-				if Buff['Saboteur'] and (enfeeb_maps[spell.name] ~= 'macc' and enfeeb_maps[spell.name] ~= 'maccINT') then
+				if Buff['Saboteur'] then
 					equip({hands=EMPY.Hands})
 				end 
 				if Buff['Stymie'] or Buff['Elemental Seal'] and not Buff['Saboteur'] then --max duration/potency
