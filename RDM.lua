@@ -178,11 +178,11 @@ function get_sets()
     RELIC.Feet		=	"Vitiation Boots +3"
 
     --Lethargy
-    EMPY.Head		=	"Leth. Chappel +1"
-    EMPY.Body		=	"Lethargy Sayon +1"
-    EMPY.Hands		=	"Leth. Gantherots +1"
-    EMPY.Legs		=	"Leth. Fuseau +1"
-    EMPY.Feet		=	"Leth. Houseaux +1"
+    EMPY.Head		=	"Leth. Chappel +2"
+    EMPY.Body		=	"Lethargy Sayon +2"
+    EMPY.Hands		=	"Leth. Ganth. +2"
+    EMPY.Legs		=	"Leth. Fuseau +2"
+    EMPY.Feet		=	"Leth. Houseaux +2"
 
     TelBod = {}
 	TelBod.Dur = { name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}}
@@ -209,6 +209,7 @@ function get_sets()
 	MerlLegs.TH = { name="Merlinic Shalwar", augments={'Accuracy+3','AGI+3','"Treasure Hunter"+2','Mag. Acc.+19 "Mag.Atk.Bns."+19',}}
 	MerlLegs.WS = { name="Merlinic Shalwar", augments={'Pet: "Mag.Atk.Bns."+9','Mag. Acc.+23','Weapon skill damage +10%','Accuracy+12 Attack+12','Mag. Acc.+12 "Mag.Atk.Bns."+12',}}
 	MerlLegs.Phalanx = { name="Merlinic Shalwar", augments={'STR+1','CHR+1','Phalanx +5','Accuracy+16 Attack+16','Mag. Acc.+12 "Mag.Atk.Bns."+12',}}
+	MerlLegs.Ref = { name="Merlinic Shalwar", augments={'"Store TP"+2','Pet: CHR+15','"Refresh"+2',}}
 	
 	MerlFeet = {}
 	MerlFeet.Aspir = { name="Merlinic Crackows", augments={'"Drain" and "Aspir" potency +11','INT+8','Mag. Acc.+13','"Mag.Atk.Bns."+15',}}
@@ -284,9 +285,9 @@ function get_sets()
     sets.me.idle.refresh = {
         ammo        =   "Homiliary",
         head		=	RELIC.Head,
-        body		=	"Jhakri Robe +2",
+        body		=	EMPY.Body,
         hands		=	MerlHands.Ref,
-        legs		=	"Carmine Cuisses +1",
+        legs		=	"Carmine Cuisses +1",--could make a more refresh set without movement speed
         feet		=	ChironicFeet.Ref,
 		neck		=	"Rep. Plat. Medal",
         waist		=	"Fucho-no-Obi",
@@ -300,8 +301,8 @@ function get_sets()
     -- Your idle DT set
     sets.me.idle.dt = set_combine(sets.me.idle.refresh,{
         neck		=	"Loricate Torque +1",
-        head		=	"Viti. Chapeau +3",
-        body		=	"Nyame Mail",
+        head		=	RELIC.Head,
+        body		=	EMPY.Body,
         hands		=	"Nyame Gauntlets",
         legs		=	"Nyame Flanchard",
         feet		=	"Nyame Sollerets",
@@ -330,7 +331,9 @@ function get_sets()
 
     }
     
-    sets.me.latent_refresh = {waist="Fucho-no-obi"}     
+    sets.me.latent_refresh = {
+		waist		=	"Fucho-no-obi"
+	}     
     
 	-- Combat Related Sets
 	------------------------------------------------------------------------------------------------------
@@ -609,18 +612,18 @@ function get_sets()
 	sets.htp["Evisceration"] = {}
 	--magic dINT 50 MND 30 STR 
     sets.me["Sanguine Blade"] = { 
-        ammo		=	"Ghastly Tathlum +1",
+        ammo		=	"Oshasha's Treatise",
         head		=	"Pixie Hairpin +1",
         body		=	"Nyame Mail",
         hands		=	"Jhakri Cuffs +2",
         legs		=	"Nyame Flanchard",
-        feet		=	"Nyame Sollerets",
-		neck		=	"Sibyl Scarf",
+        feet		=	EMPY.Feet,
+		neck		=	"Baetyl Pendant",
 		waist		=	"Orpheus's Sash",
         left_ear	=	"Regal Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Epaminondas's Ring",
-        right_ring	=	"Metamor. Ring +1",
+        right_ring	=	"Archon Ring",
         back		=	RDMCape.MACC,
     }
 	sets.htp["Sanguine Blade"] = {}
@@ -631,7 +634,7 @@ function get_sets()
         body		=	"Nyame Mail",
         hands		=	"Jhakri Cuffs +2",
         legs		=	"Nyame Flanchard",
-        feet		=	"Nyame Sollerets",
+        feet		=	EMPY.Feet,
 		neck		=	"Sibyl Scarf",
         waist		=	"Orpheus's Sash",
         left_ear	=	"Regal Earring",
@@ -650,7 +653,7 @@ function get_sets()
         body		=	"Nyame Mail",
         hands		=	"Jhakri Cuffs +2",
         legs		=	"Nyame Flanchard",
-        feet		=	"Nyame Sollerets",
+        feet		=	EMPY.Feet,
 		neck		=	"Sibyl Scarf",
         waist		=	"Orpheus's Sash",
         left_ear	=	"Regal Earring",
@@ -664,12 +667,12 @@ function get_sets()
 	}
 	--40% STR 40% MND 
     sets.me["Seraph Blade"] = {
-        ammo		=	"Pemphredo Tathlum",
+        ammo		=	"Oshasha's Treatise",
 		head		=	"Nyame Helm",
         body		=	"Nyame Mail",
         hands		=	"Jhakri Cuffs +2",
         legs		=	"Nyame Flanchard",
-        feet		=	"Nyame Sollerets",
+        feet		=	EMPY.Feet,
 		neck		=	"Baetyl Pendant",
         waist		=	"Orpheus's Sash",
         left_ear	=	"Moonshade Earring",
@@ -868,7 +871,7 @@ function get_sets()
 
     sets.midcast.nuking.normal = {
         ammo		=	"Ghastly Tathlum +1",
-        head		=	"C. Palug Crown",
+        head		=	EMPY.Head,
         body		=	"Seidr Cotehardie",
         hands		=	"Amalric Gages +1",
         legs		=	"Amalric Slops +1",
@@ -889,12 +892,11 @@ function get_sets()
         hands		=	"Amalric Gages +1",		
         legs		=	"Ea Slops +1",
         neck		=	"Mizu. Kubikazari",
-        left_ring	=	"Mujin Band",
     })
 	
     sets.midcast.nuking.acc = {
         ammo		=	"Ghastly Tathlum +1",
-        head		=	"C. Palug Crown",
+        head		=	EMPY.Head,
         body		=	"Amalric Doublet +1",
         hands		=	"Amalric Gages +1",
         legs		=	"Amalric Slops +1",
@@ -916,30 +918,28 @@ function get_sets()
         legs		=	"Ea Slops +1",
 		feet		=	"Amalric Nails +1",
         neck		=	"Mizu. Kubikazari",
-        left_ring	=	"Mujin Band",
     })	
 	
     -- Enfeebling
 
 	sets.midcast.Enfeebling = {} -- leave Empty
 	sets.midcast.EnfeeblingS = {}
-	--Type A-pure macc no potency mod for sleep silence dispel Frazzle II
+	--Type A-pure macc no potency mod for silence Frazzle II
     sets.midcast.Enfeebling.macc = {
 		--main		=	"Crocea Mors",
 		--sub			=	"Daybreak",
 		ranged		=	empty,
         ammo		=	"Regal Gem",
-		head		=	RELIC.Head,
-        body		=	AF.Body,
+		head		=	EMPY.Head,
+        body		=	EMPY.Body,
         hands		=	"Regal Cuffs",
         legs		=	"Chironic Hose",
-        feet		=	RELIC.Feet,
+        feet		=	EMPY.Feet,
         neck		=	"Dls. Torque +2",
 		waist		=	"Obstin. Sash",
-        left_ear	=	"Regal Earring",
-        right_ear	=	"Snotra Earring",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
-        --right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		right_ring	=	"Kishar Ring",
 		back		=	"Aurist's Cape +1",
 
@@ -950,9 +950,22 @@ function get_sets()
 		ranged		=	"Ullr",
         --ammo		=	"",
 	})
+	--sleep
 	sets.midcast.Enfeebling.maccINT =set_combine(sets.midcast.Enfeebling.macc, {
-		left_ring	=	"Metamor. Ring +1",
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,
+        body		=	EMPY.Body,
+        hands		=	"Regal Cuffs",
+        legs		=	"Chironic Hose",
+        feet		=	EMPY.Feet,
+        neck		=	"Dls. Torque +2",
 		waist		=	"Obstin. Sash",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	"Kishar Ring",
+		back		=	"Aurist's Cape +1",
 	})
 	sets.midcast.EnfeeblingS.maccINT =set_combine(sets.midcast.Enfeebling.maccINT, {
 		main		=	"Murgleis",
@@ -961,42 +974,93 @@ function get_sets()
         ammo		=	"",
 	})
 	sets.midcast["Stun"] = set_combine(sets.midcast.Enfeebling.maccINT, {
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,
+        body		=	AF.Body,
         hands		=	"Regal Cuffs",
-        feet		=	"Malignance Boots",
+        legs		=	"Chironic Hose",
+        feet		=	EMPY.Feet,
+        neck		=	"Dls. Torque +2",
 		waist		=	"Acuity Belt +1",
+        left_ear	=	"Regal Earring",
         right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		back		=	"Aurist's Cape +1",
+        
+        
+		
+        
 	})
 	
-	sets.midcast["Impact"] = set_combine(sets.midcast.Enfeebling.maccINT, {
+	sets.midcast.Enfeebling.imp = set_combine(sets.midcast.Enfeebling.maccINT, {
 		head=empty,
 		body		=	"Crepuscular Cloak",
-		hands		=	"Regal Cuffs",
+		hands		=	EMPY.Hands,
 		legs		=	"Ea Slops +1",
-		feet		=	"Malignance Boots",
+		feet		=	EMPY.Feet,
 		waist		=	"Acuity Belt +1",
 		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		right_ear	=	"Malignance Earring",
+		back		=	"Aurist's Cape +1",
 		
 
 	})
-	--dispel doesn't need duration
-	sets.midcast["Dispel"]	= set_combine(sets.midcast.Enfeebling.maccINT, {
-		hands		=	"Regal Cuffs",
-		right_ear	=	"Malignance Earring",
-		waist		=	"Acuity Belt +1",
+	sets.midcast.EnfeeblingS.imp =set_combine(sets.midcast.Enfeebling.imp, {
+		main		=	"Murgleis",
+		sub			=	"Bunzi's Rod",
+		ranged		=	"Ullr",
+        ammo		=	"",
 	})
-	sets.midcast["Dispelga"] = set_combine(sets.midcast.Enfeebling.maccINT, {
+	--dispel doesn't need duration or immunobreak
+	sets.midcast.Enfeebling.disp= set_combine(sets.midcast.Enfeebling.maccINT, {
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	RELIC.Head,
+        body		=	AF.Body,
+        hands		=	EMPY.Hands,
+        legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
+		waist		=	"Acuity Belt +1",
+        left_ear	=	"Regal Earring",
+        right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		back		=	"Aurist's Cape +1",
+		
+		
+	})
+	sets.midcast.EnfeeblingS.disp =set_combine(sets.midcast.Enfeebling.disp, {
+		main		=	"Murgleis",
+		sub			=	"Bunzi's Rod",
+		ranged		=	"Ullr",
+        ammo		=	"",
+	})
+	sets.midcast["Dispelga"] = set_combine(sets.midcast.Enfeebling.disp, {
 		main		=	"Daybreak",
 		sub			=	"Ammurapi Shield",
-		hands		=	"Regal Cuffs",
-		right_ear	=	"Malignance Earring",
-		waist		=	"Acuity Belt +1",
 	})
 	--Type B-potency from: Mnd & "Enfeeb Potency" gear for Slow Addle Parralyze (based on dMND and potency not skill or skill already capped)
     sets.midcast.Enfeebling.mndpot = set_combine(sets.midcast.Enfeebling.macc, {
-		body 		= 	EMPY.Body,
-		left_ring	=	"Metamor. Ring +1",
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,--eventually empy head
+        body 		= 	EMPY.Body,
+        hands		=	"Regal Cuffs",
+        legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
+		waist		=	"Obstin. Sash",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	"Kishar Ring",
 		back		=	RDMCape.MACC,
+		
+		
+		
     })
 	sets.midcast.EnfeeblingS.mndpot =set_combine(sets.midcast.Enfeebling.mndpot, {
 		main		=	"Murgleis",
@@ -1004,12 +1068,52 @@ function get_sets()
 		ranged		=	empty,
         ammo		=	"Regal Gem",
 	})
+	--addle doesn't immunobreak
+	sets.midcast.Enfeebling.addle = set_combine(sets.midcast.Enfeebling.macc, {
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,--eventually empy head
+        body 		= 	EMPY.Body,
+        hands		=	"Regal Cuffs",
+        legs		=	EMPY.Legs,
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
+		waist		=	"Obstin. Sash",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	"Kishar Ring",
+		back		=	RDMCape.MACC,
+		
+		
+		
+    })
+	sets.midcast.EnfeeblingS.addle =set_combine(sets.midcast.Enfeebling.mndpot, {
+		main		=	"Murgleis",
+		sub			=	"Bunzi's Rod",
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+	})
 	-- Type C-potency from: Int & "Enfeeb Potency" gear for Blind (based on dINT and potency not skill)
     sets.midcast.Enfeebling.intpot = set_combine(sets.midcast.Enfeebling.macc, {
-		body 		= 	EMPY.Body,
-		back 		= 	RDMCape.INT,
-		left_ring	=	"Metamor. Ring +1",
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,--empy head eventually
+        body 		= 	EMPY.Body,
+        hands		=	"Regal Cuffs",
+        legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
 		waist		=	"Acuity Belt +1",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
+        left_ring	=	"Metamor. Ring +1",
+		right_ring	=	"Kishar Ring",
+		back 		= 	RDMCape.INT,
+		
+		
+		
+		
     })
 	sets.midcast.EnfeeblingS.intpot =set_combine(sets.midcast.Enfeebling.intpot, {
 		main		=	"Murgleis",
@@ -1019,12 +1123,26 @@ function get_sets()
 	})
 	--Type D-potency from: Enfeeb Skill & "Enfeeb Potency" gear for Poison II no capped skill
     sets.midcast.Enfeebling.skillpot = set_combine(sets.midcast.Enfeebling.macc, {
-		neck 		=	"Incanter's Torque",
-		body 		= 	AF.Body,
-		hands		=	"Kaykaus Cuffs +1",
-		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	RELIC.Head,
+        body 		= 	AF.Body,
+        hands		=	EMPY.Hands,
+        legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
+        neck 		=	"Incanter's Torque",
 		waist		=	"Obstin. Sash",
-        left_ear	=	"Vor Earring",	
+        left_ear	=	"Vor Earring",
+        right_ear	=	"Snotra Earring",
+        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		back		=	"Aurist's Cape +1",
+		
+		
+		
+		
+		
+        	
     })
 	sets.midcast.EnfeeblingS.skillpot =set_combine(sets.midcast.Enfeebling.skillpot, {
 		main		=	GrioAug.Enfeeb,
@@ -1032,14 +1150,25 @@ function get_sets()
 		ranged		=	empty,
         ammo		=	"Regal Gem",
 	})
-	-- Tpe E-potency from: Enfeeb skill, Mnd, & "Enfeeb Potency" gear Distract III, Frazzle III cap at 610 skill but want max potency too
+	-- Tpe E-potency from: Enfeeb skill, Mnd, & "Enfeeb Potency" gear Distract III caps at 610 
     sets.midcast.Enfeebling.skillmndpot = set_combine(sets.midcast.Enfeebling.macc, {
-		body 		= 	EMPY.Body,
-		hands		=	"Kaykaus Cuffs +1",
-		--right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	RELIC.Head,
+        body 		= 	EMPY.Body,
+		hands		=	EMPY.Hands,
+        legs		=	EMPY.Legs,
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
 		waist		=	"Obstin. Sash",
         left_ear	=	"Vor Earring",
-        back		=	RDMCape.MACC,		
+        right_ear	=	"Snotra Earring",
+        left_ring 	= 	"Kishar Ring",
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		 back		=	RDMCape.MACC,	
+		
+        
+       	
     })
 	sets.midcast.EnfeeblingS.skillmndpot =set_combine(sets.midcast.Enfeebling.skillmndpot, {
 		main		=	"Murgleis", --due to master levels no longer need skill staff/grip
@@ -1047,12 +1176,44 @@ function get_sets()
 		ranged		=	empty,
         ammo		=	"Regal Gem",
 	})
+	--frazzle III caps at 625
+	sets.midcast.Enfeebling.frazz = set_combine(sets.midcast.Enfeebling.macc, {
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	RELIC.Head,
+        body 		= 	EMPY.Body,
+		hands		=	EMPY.Hands,
+        legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
+        neck		=	"Dls. Torque +2",
+		waist		=	"Obstin. Sash",
+        left_ear	=	"Vor Earring",
+        right_ear	=	"Snotra Earring",
+        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		 back		=	RDMCape.MACC,	
+		
+        
+       	
+    })
+	sets.midcast.EnfeeblingS.frazz =set_combine(sets.midcast.Enfeebling.skillmndpot, {
+		main		=	"Murgleis", --due to master levels no longer need skill staff/grip
+		sub			=	"Bunzi's Rod",
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+	})
 	-- Type F-potency from "Enfeebling potency" gear only Gravity (no skill needed but INT)
-    sets.midcast.Enfeebling.potency = set_combine(sets.midcast.Enfeebling.macc, {
+    sets.midcast.Enfeebling.potency = set_combine(sets.midcast.Enfeebling.maccINT, {
+		ranged		=	empty,
+        ammo		=	"Regal Gem",
+		head		=	EMPY.Head,
 		body 		= 	EMPY.Body,
-		back 		= 	RDMCape.INT,
+		hands		=	"Regal Cuffs",
+		legs		=	"Chironic Hose",
+        feet		=	RELIC.Feet,
 		left_ring	=	"Metamor. Ring +1",
 		waist		=	"Acuity Belt +1",
+		back 		= 	RDMCape.INT,
     })
 	sets.midcast.EnfeeblingS.potency =set_combine(sets.midcast.Enfeebling.potency, {
 		main		=	"Murgleis",
@@ -1071,6 +1232,7 @@ function get_sets()
 		hands 		= 	"Regal Cuffs",
 		legs 		= 	EMPY.Legs,
 		feet 		= 	EMPY.Feet,
+		waist		=	"Obstin. Sash",
 		left_ring 	= 	"Kishar Ring",
 		back		=	RDMCape.MACC,
 	})
@@ -1179,12 +1341,15 @@ function get_sets()
 	sets.midcast.GainStat = set_combine(sets.midcast.enhancing.duration,{
 		hands = RELIC.Hands,
 	})
-    sets.midcast.refresh = set_combine(sets.midcast.enhancing.duration, {
+    sets.midcast.refresh = set_combine(sets.midcast.enhancing.composure, {
 		head		=	"Amalric Coif +1", --2
 		body		= 	AF.Body, --2
-		legs		= 	EMPY.Legs, --2
+		legs		= 	EMPY.Legs, --3
     })
-	sets.midcast.RefreshSelf = set_combine(sets.midcast.refresh, {
+	sets.midcast.RefreshSelf = set_combine(sets.midcast.enhancing.duration, {
+		head		=	"Amalric Coif +1", --2
+		body		= 	AF.Body, --2
+		legs		= 	EMPY.Legs, --3
 		waist		=	"Gishdubar Sash", 
 		back 		=	"Grapevine Cape",
     })
@@ -1196,10 +1361,11 @@ function get_sets()
 		ammo		=	"",
 		head 		=	"Volte Cap",
 		hands 		= 	"Volte Bracers",
-		feet 		= 	"Volte Bracers",
+		legs		=	"Volte Hose",
+		feet 		= 	"Volte Boots",
 		waist		=	"Chaac Belt",
 	})
-	-- adjusted for TH + damag over time and duration regal gem would give another 10 dot.
+	-- adjusted for TH + damag over time and duration 
 	sets.midcast["Dia III"] = 	{	
 		main		=	"",
 		sub			=	"",
@@ -1208,12 +1374,12 @@ function get_sets()
 		head 		=	"Volte Cap",
         body		=	EMPY.Body,					--14
         hands		=	"Volte Bracers",
-        legs		=	EMPY.Legs,
-        feet		=	"Volte Boots",				--could add more dot with relic feet but TH for now
+        legs		=	"Volte Hose",
+        feet		=	RELIC.Feet,					--10
         neck		=	"Dls. Torque +2",			--10
 		waist		=	"Chaac Belt",
-        left_ear	=	"Regal Earring",
-        right_ear	=	"Snotra Earring",
+        left_ear	=	"Snotra Earring",
+        right_ear	=	"Malignance Earring",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
         right_ring	=	"Kishar Ring",
         back		=	RDMCape.MACC,				--10
