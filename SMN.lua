@@ -907,7 +907,7 @@ function get_sets()
     sets.midcast["Aspir"] = sets.midcast["Drain"]
  	
     -- Cure Potency
-    sets.midcast.cure = set_combine(sets.midcast.casting,{
+    sets.midcast.cure.normal = set_combine(sets.midcast.casting,{
 		Ammo		=	"Pemphredo Tathlum",
 	    head		=	"Vanya Hood",
 		body		=	"Heka's Kalasiris",
