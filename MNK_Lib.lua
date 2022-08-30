@@ -517,9 +517,9 @@ function buff_change(name,gain,buff_details)
 			equip(sets.me.melee[meleeModes.value])
         end
     if (name == "terror" or name == "petrification" or name == "stun") and gain then
-        equip(sets.me.melee.dt)
+        equip(sets.me.melee.mdt)
 	elseif (name == "terror" or name == "petrification" or name == "stun") then
-		equip(sets.me.melee[meleeModes.value])
+		idle()
     end
 end
  
