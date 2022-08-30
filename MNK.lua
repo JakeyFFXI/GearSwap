@@ -147,25 +147,25 @@ function get_sets()
 
 
 	-- Fill this with your own JSE. 
-    --Atrophy
+    --Anchorite
     AF.Head		=	"Anch. Crown +3"
     AF.Body		=	"Anch. Cyclas +3"
     AF.Hands	=	"Anchor. Gloves +3"
     AF.Legs		=	"Anch. Hose +3"
     AF.Feet		=	"Anch. Gaiters +3"
 
-    --Vitiation
+    --Hesychast's
     RELIC.Head		=	"Hes. Crown +3"
     RELIC.Body		=	"Hes. Cyclas +3"
     RELIC.Hands 	=	"Hes. Gloves +3"
     RELIC.Legs		=	"Hes. Hose +3"
     RELIC.Feet		=	"Hes. Gaiters +3"
 
-    --Lethargy
+    --Bhikku
     EMPY.Head		=	""
-    EMPY.Body		=	"Bhikku Cyclas +1"
-    EMPY.Hands		=	""
-    EMPY.Legs		=	""
+    EMPY.Body		=	"Bhikku Cyclas +2"
+    EMPY.Hands		=	"Bhikku Gloves +2"
+    EMPY.Legs		=	"Bhikku Hose +2"
     EMPY.Feet		=	"Bhikku Gaiters +1"
 
 	AdhemHead = {}
@@ -254,14 +254,13 @@ function get_sets()
     
 	-- Combat Related Sets
 	------------------------------------------------------------------------------------------------------
-	-- Dual Wield sets
-	------------------------------------------------------------------------------------------------------
+	--glass cannon
     sets.me.melee.normal = set_combine(sets.me.idle.normal,{   
         ammo		=	"Coiste Bodhar",
         head		=	AdhemHead.Acc,
         body		=	"Mpaca's Doublet",
         hands		=	AdhemHands.Acc,
-        legs		=	RELIC.Legs,
+        legs		=	EMPY.Legs,
         feet		=	AF.Feet,
 		neck		=	"Mnk. Nodowa +2",
         waist		=	"Moonbow Belt +1",
@@ -275,41 +274,20 @@ function get_sets()
 		body		=	EMPY.Body,
 	})
 	sets.me.am3.normal = set_combine(sets.me.melee.normal,{
-		ammo		=	"Coiste Bodhar",
-        head		=	AdhemHead.Acc,
-        body		=	"Mpaca's Doublet",
         hands		=	"Mpaca's Gloves",
-        legs		=	RELIC.Legs,
-        feet		=	AF.Feet,
-		neck		=	"Mnk. Nodowa +2",
-        waist		=	"Moonbow Belt +1",
-		left_ear	=	"Schere Earring",
-        right_ear	=	"Sherida Earring",
-		left_ring	=	"Gere Ring", 
-        right_ring	=	"Niqmaddu Ring", 
         back		=	MNKCape.DEXDA,
 	})
 	sets.me.am3imp.normal = set_combine(sets.me.melee.normal,{
-		ammo		=	"Coiste Bodhar",
-        head		=	AdhemHead.Acc,
         body		=	EMPY.Body,
         hands		=	"Mpaca's Gloves",
-        legs		=	RELIC.Legs,
-        feet		=	AF.Feet,
-		neck		=	"Mnk. Nodowa +2",
-        waist		=	"Moonbow Belt +1",
-		left_ear	=	"Schere Earring",
-        right_ear	=	"Sherida Earring",
-		left_ring	=	"Gere Ring", 
-        right_ring	=	"Niqmaddu Ring", 
         back		=	MNKCape.DEXDA,
 	})
-    sets.me.melee.acc = set_combine(sets.me.melee.normal,{
+    sets.me.melee.acc = set_combine(sets.me.melee.normal,{ --set meant to have capped subtle blow, high acc, moderate meva
 		ammo		=	"Coiste Bodhar",
         head		=	"Ken. Jinpachi +1",
         body		=	"Mpaca's Doublet",
         hands		=	"Malignance Gloves",
-        legs		=	"Ken. Hakama +1",
+        legs		=	"Mpaca's Hose",
         feet		=	"Ken. Sune-Ate +1",
 		neck		=	"Mnk. Nodowa +2",
         waist		=	"Moonbow Belt +1",
@@ -322,44 +300,25 @@ function get_sets()
     })
 	sets.me.imp.acc = set_combine(sets.me.melee.acc,{  
 		body		=	EMPY.Body,
+		back		=	MNKCape.DEXDA,
 	})
 	sets.me.am3.acc = set_combine(sets.me.melee.acc,{
-		ammo		=	"Coiste Bodhar",
-        head		=	"Ken. Jinpachi +1",
-        body		=	"Mpaca's Doublet",
         hands		=	"Mpaca's Gloves",
-        legs		=	"Mpaca's Hose",
-        feet		=	"Ken. Sune-Ate +1",
-		neck		=	"Mnk. Nodowa +2",
-        waist		=	"Moonbow Belt +1",
-		left_ear	=	"Schere Earring",
-        right_ear	=	"Sherida Earring",
-		left_ring	=	"Gere Ring", 
-        right_ring	=	"Niqmaddu Ring", 
-        back		=	MNKCape.AccSTP,
+		legs		=	EMPY.Legs, --only used with empy H2H so haste basically still capped due to overcapped Martial Arts
 	})
 	sets.me.am3imp.acc = set_combine(sets.me.melee.acc,{
-		ammo		=	"Coiste Bodhar",
-        head		=	"Ken. Jinpachi +1",
         body		=	EMPY.Body,
         hands		=	"Mpaca's Gloves",
-        legs		=	"Mpaca's Hose",
-        feet		=	"Ken. Sune-Ate +1",
-		neck		=	"Mnk. Nodowa +2",
-        waist		=	"Moonbow Belt +1",
-		left_ear	=	"Schere Earring",
-        right_ear	=	"Sherida Earring",
-		left_ring	=	"Gere Ring", 
-        right_ring	=	"Niqmaddu Ring", 
+        legs		=	EMPY.Legs,
         back		=	MNKCape.DEXDA, 
 	})
-	 sets.me.melee.pdt = set_combine(sets.me.melee.acc,{
-		ammo		=	"Crepuscular Pebble",
+	 sets.me.melee.pdt = set_combine(sets.me.melee.acc,{ --pdt but shit meva uncapped subtle blow
+		ammo		=	"Coiste Bodhar",
         head		=	"Mpaca's Cap",
         body		=	"Mpaca's Doublet",
-        hands		=	"Malignance Gloves",
-        legs		=	"Mpaca's Hose",
-        feet		=	"Ken. Sune-Ate +1",
+        hands		=	"Mpaca's Gloves",
+        legs		=	EMPY.Legs,
+        feet		=	AF.Feet,
 		neck		=	"Mnk. Nodowa +2",
         waist		=	"Moonbow Belt +1",
 		left_ear	=	"Schere Earring",
@@ -369,15 +328,41 @@ function get_sets()
         back		=	MNKCape.AccSTP,  
     })
 	sets.me.imp.pdt = set_combine(sets.me.melee.pdt,{  
+		ammo		=	"Crepuscular Pebble",
+        head		=	"Mpaca's Cap",
+        body		=	EMPY.Body,
+        hands		=	"Mpaca's Gloves",
+        legs		=	"Mpaca's Hose",
+        feet		=	"Mpaca's Boots",
+		neck		=	"Mnk. Nodowa +2",
+        waist		=	"Moonbow Belt +1",
+		left_ear	=	"Schere Earring",
+        right_ear	=	"Sherida Earring",
+		left_ring	=	"Gere Ring", 
+        right_ring	=	"Niqmaddu Ring", 
+        back		=	MNKCape.AccSTP, 
 
 	})
 	sets.me.am3.pdt = set_combine(sets.me.melee.pdt,{  
 
 	})
 	sets.me.am3imp.pdt = set_combine(sets.me.melee.pdt,{  
+		ammo		=	"Crepuscular Pebble",
+        head		=	"Mpaca's Cap",
+        body		=	EMPY.Body,
+        hands		=	"Mpaca's Gloves",
+        legs		=	"Mpaca's Hose",
+        feet		=	"Mpaca's Boots",
+		neck		=	"Mnk. Nodowa +2",
+        waist		=	"Moonbow Belt +1",
+		left_ear	=	"Schere Earring",
+        right_ear	=	"Sherida Earring",
+		left_ring	=	"Gere Ring", 
+        right_ring	=	"Niqmaddu Ring", 
+        back		=	MNKCape.AccSTP, 
 
 	})
-    sets.me.melee.mdt = set_combine(sets.me.melee.acc,{
+    sets.me.melee.mdt = set_combine(sets.me.melee.acc,{ --capped subtle blow high meva capped dt
 		ammo		=	"Crepuscular Pebble",
 		body		=	"Malignance Tabard",
 		hands		=	"Malignance Gloves",
@@ -395,9 +380,9 @@ function get_sets()
 
 	})
 	
-    sets.me.melee.counterdt = set_combine(sets.me.melee.normal,{
+    sets.me.melee.counterdt = set_combine(sets.me.melee.normal,{ --adjust once I get earring
 	    ammo		=	"Hasty Pinion +1",
-        head		=	"Nyame Helm",				--			7
+        head		=	"Malignance Chapeau",		--			6
         body		=	"Mpaca's Doublet",			--10		10
         hands		=	"Malignance Gloves",		--			5
         legs		=	AF.Legs,					--6			
@@ -409,7 +394,7 @@ function get_sets()
         left_ring	=	"Defending Ring",			--			10
 		right_ring	=	"Gelatinous Ring +1",		--			7
         back		=	MNKCape.DEXDA,  			--10
-										--counter 27+39+14=80 dt=50
+										--counter 27+39+14=80 dt=51
     })
 	sets.me.imp.counterdt = set_combine(sets.me.melee.counterdt,{  
 	})
@@ -458,7 +443,7 @@ function get_sets()
         ammo		=	"Crepuscular Pebble",
         head		=	"Mpaca's Cap", --mpaca loss of damage but lot more mag acc
         body		=	"Mpaca's Doublet", 
-        hands		=	"Mpaca's Gloves",--AdhemHands.STR,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots",
         neck		=	"Mnk. Nodowa +2",
@@ -475,7 +460,7 @@ function get_sets()
         ammo		=	"Crepuscular Pebble",
         head		=	RELIC.Head,
         body		=	"Nyame Mail",
-        hands		=	AF.Hands,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Nyame Sollerets",
         neck		=	"Fotia Gorget",
@@ -493,7 +478,7 @@ function get_sets()
         ammo		=	"Knobkierrie",
         head		=	"Mpaca's Cap",
         body		=	"Mpaca's DOublet",
-        hands		=	AdhemHands.STR,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots",
         neck		=	"Mnk. Nodowa +2",
@@ -518,7 +503,7 @@ function get_sets()
         ammo		=	"Knobkierrie",
         head		=	"Mpaca's Cap",
         body		=	"Mpaca's Doublet",
-        hands		=	AdhemHands.STR,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots",
         neck		=	"Mnk. Nodowa +2",
@@ -543,7 +528,7 @@ function get_sets()
         ammo		=	"Coiste Bodhar",
 		head		=	"Mpaca's Cap",
         body		=	"Mpaca's Doublet",
-        hands		=	AdhemHands.STR,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots",
         neck		=	"Mnk. Nodowa +2", --for the phys dmg limit
@@ -564,7 +549,7 @@ function get_sets()
         ammo		=	"Knobkierrie",
         head		=	RELIC.Head,
         body		=	"Nyame Mail",
-        hands		=	"Nyame Gauntlets",
+        hands		=	EMPY.Hands,
         legs		=	"Nyame Flanchard",
         feet		=	"Nyame Sollerets",
         neck		=	"Mnk. Nodowa +2",
@@ -582,7 +567,7 @@ function get_sets()
         ammo		=	"Knobkierrie",
         head		=	RELIC.Head,
         body		=	"Nyame Mail",
-        hands		=	AF.Hands,
+        hands		=	EMPY.Hands,
         legs		=	"Nyame Flanchard",
         feet		=	"Nyame Sollerets",
         neck		=	"Fotia Gorget",
@@ -599,7 +584,7 @@ function get_sets()
         ammo		=	"Aurgelmir Orb +1",
         head		=	"Mpaca's Cap", 
         body		=	"Mpaca's Doublet",
-        hands		=	AdhemHands.STR,
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots", 
         neck		=	"Mnk. Nodowa +2",
@@ -618,7 +603,7 @@ function get_sets()
         ammo		=	"Knobkierrie",
         head		=	"Mpaca's Cap",
         body		=	"Mpaca's Doublet",
-        hands		=	"Mpaca's Gloves",
+        hands		=	EMPY.Hands,
         legs		=	"Mpaca's Hose",
         feet		=	"Mpaca's Boots",
         neck		=	"Fotia Gorget",
@@ -727,7 +712,7 @@ function get_sets()
 	sets.TH = {
 		head 		=	"Volte Cap",
 		hands		=	"Volte Bracers",
-		legs		=	"Volte Hose"
+		legs		=	"Volte Hose",
 		feet		=	"Volte Boots",
 		waist		=	"Chaac Belt",
 	}
