@@ -586,9 +586,27 @@ function midcast(spell)
     local spellMap = get_spell_map(spell)    
     -- No need to annotate all this, it's fairly logical. Just equips the relevant sets for the relevant magic
     if spell.name:match('Cure') or spell.name:match('Cura') then
-        if spell.element == world.weather_element or spell.element == world.day_element then
-            equip(sets.midcast.cure.weather)
-        else
+        if idleModes.current == 'dt' then
+			if spell.element == world.weather_element or spell.element == world.day_element then
+				if spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+					equip(sets.midcast.cure.dtselfweather)
+				else
+					equip(sets.midcast.cure.dtweather)
+				end
+			elseif spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+				equip(sets.midcast.cure.dtself)
+			else
+				equip(sets.midcast.cure.dt)
+			end
+		elseif spell.element == world.weather_element or spell.element == world.day_element then
+			if spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession'] then 
+				equip(sets.midcast.cure.selfweather)
+			else
+				equip(sets.midcast.cure.weather)
+			end
+        elseif spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+			equip(sets.midcast.cure.self)
+		else
             equip(sets.midcast.cure.normal)
         end
 	elseif spell.name == 'Cursna' and spell.target.type == 'SELF' then
