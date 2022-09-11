@@ -457,6 +457,7 @@ Buff =
         ['Alacrity'] = false,
         ['Klimaform'] = false,
         ['Sublimation: Activated'] = false
+	['Sublimation: Complete'] = false
     }
     
 -- Get a spell mapping for the spell.
@@ -476,6 +477,8 @@ function update_active_strategems(name, gain)
     Buff['Celerity'] = buffactive['Celerity'] or false
     Buff['Alacrity'] = buffactive['Alacrity'] or false
     Buff['Klimaform'] = buffactive['Klimaform'] or false
+    Buff['Sublimation: Activated'] = buffactive['Sublimation: Activated'] or false
+    Buff['Sublimation: Complete'] = buffactive['Sublimation: Complete'] or false
 end
 
 function update_sublimation()
@@ -496,6 +499,9 @@ function buff_refresh(name,buff_details)
     -- Update SCH statagems when a buff refreshes.
     update_active_strategems()
     update_sublimation()
+    if name == 'Sublimation: Complete' and gain then
+	idle()
+    end
     if use_UI == true then
         validateTextInformation()
     end
@@ -505,6 +511,9 @@ function buff_change(name,gain,buff_details)
     -- Update SCH statagems when a buff is gained or lost.
     update_active_strategems()
     update_sublimation()
+    if name == 'Sublimation: Complete' and gain then
+	idle()
+    end
     if use_UI == true then
         validateTextInformation()
     end
@@ -622,7 +631,11 @@ function midcast(spell)
 
     -- And our catch all, if a set exists for this spell name, use it
     if sets.midcast[spell.name] then
-        equip(sets.midcast[spell.name])
+        if nukeModes.current == 'occult' and spell.name == 'Impact' then
+		equip(sets.midcast.OccImpact)
+	else
+		equip(sets.midcast[spell.name])
+	end
     -- Catch all for tiered spells (use mapping), basically if no set for spell name, check set for spell mapping. AKA Drain works for all Drain tiers.
     elseif sets.midcast[spellMap] then
         equip(sets.midcast[spellMap])
@@ -802,7 +815,10 @@ function idle()
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if (meleeing.current and player.status=='Engaged') then   
         -- We're engaged and meleeing
-        equip(sets.me.melee)               
+        equip(sets.me.melee) 
+	if player.TP > 2900  and not buffactive['Aftermath: Lv.2']then --for mythic am2
+		equip(sets.me.chrys)
+	end
     else
         -- If we are building sublimation, then we swap refresh to sublimation style idle.
         if buffactive['Sublimation: Activated'] then
@@ -815,9 +831,14 @@ function idle()
         else
             equip(sets.me.idle[idleModes.value])             
         end
+	if player.TP > 2600 and player.TP <= 2900 and not buffactive['Aftermath: Lv.2'] then --stop gaining tp
+		equip(sets.me.warder)
+	elseif player.TP > 2900 and not buffactive['Aftermath: Lv.2'] then
+		equip(sets.me.chrys)
+	end
     end
     -- Checks MP for Fucho-no-Obi
-    if player.mpp < 51 then
+    if player.mpp < 51 and not buffactive['Sublimation: Activated'] then
         equip(sets.me.latent_refresh)   
     end
     equip({main = mainWeapon.current, sub = subWeapon.current})
@@ -943,7 +964,11 @@ function self_command(command)
                 return              
             else        
                 -- Leave out target; let Shortcuts auto-determine it.
-                send_command('@input /ma "'..nukes[nuke][elements.current]..'"')     
+                if (nuke == 't5' or nuke == 't4') and not buffactive['Addendum: Black'] then
+			send_command('@input /ma "'..nukes.t3[elements.current]..'"') 
+		else
+			send_command('@input /ma "'..nukes[nuke][elements.current]..'"')
+		end 
             end
         elseif commandArgs[1]:lower() == 'sc' then
             if not commandArgs[2] then
