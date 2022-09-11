@@ -196,9 +196,9 @@ function get_sets()
 
     --Arbatel
     EMPY.Head		=	"Arbatel Bonnet +2"
-    EMPY.Body		=	""
-    EMPY.Hands		=	"Arbatel Bracers +1"
-    EMPY.Legs		=	""
+    EMPY.Body		=	"Arbatel Gown +2"
+    EMPY.Hands		=	"Arbatel Bracers +2"
+    EMPY.Legs		=	"Arbatel Pants +2"
     EMPY.Feet		=	"Arbatel Loafers +2"
 	
 	Lugh = {}
@@ -213,8 +213,11 @@ function get_sets()
 	TelHead = {}
 	TelHead.Dur = { name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}}
 	
+	TelHands = {}
+	TelHands.Dur = { name="Telchine Gloves", augments={'Potency of "Cure" effect received+7%','Enh. Mag. eff. dur. +10',}}
+	
 	TelLeg = {}
-	TelLeg.Dur = { name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +10',}}
+	TelLeg.Dur = { name="Telchine Braconi", augments={'Potency of "Cure" effect received+7%','Enh. Mag. eff. dur. +10',}}
 	TelLeg.Reg = { name="Telchine Braconi", augments={'"Regen" potency+3',}}
 	
 	TelFeet={}
@@ -256,12 +259,12 @@ function get_sets()
     sets.me.idle.refresh = {
 		ammo		=	"Homiliary",
 		head		=	MerlHead.Ref,
-		body		=	"Jhakri Robe +2",
+		body		=	EMPY.Body,
 		hands		=	MerlHands.Ref,
 		legs		=	MerlLegs.Ref,
 		feet		=	"Herald's Gaiters",
 		neck		=	"Rep. Plat. Medal",
-		waist		=	"Fucho-no-Obi",
+		waist		=	"Carrier's Sash",
 		left_ear	=	"Infused Earring",
 		right_ear	=	"Savant's Earring",
         	left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
@@ -282,10 +285,10 @@ function get_sets()
     -- Your idle DT set
     sets.me.idle.dt = set_combine(sets.me.idle.refresh,{
 		head		=	EMPY.Head,
-		body		=	"Agwu's Robe",
-		hands		=	"Nyame Gauntlets",
+		body		=	EMPY.Body,
+		hands		=	MerlHands.Ref,
 		legs		=	"Nyame Flanchard",
-		feet		=	"Nyame Sollerets",
+		feet		=	ChironicFeet.Ref,
 		neck		=	"Rep. Plat. Medal",
 		left_ear	=	"Odnowa Earring +1",
 		back		=	Lugh.AccHas
@@ -836,11 +839,11 @@ function get_sets()
 		legs		=	"Chironic Hose",
 		feet		=	AF.Feet,
 		neck		=	"Argute Stole +2",
-		waist		=	"Rumination Sash",
+		waist		=	"Obstin. Sash",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-        left_ring	=	"Metamor. Ring +1",
-        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		left_ring	=	"Metamor. Ring +1",
+        	right_ring	=	"Kishar Ring",
 		back		=	"Aurist's Cape +1",
     }
     sets.midcast.MndEnfeebling = {
@@ -851,20 +854,35 @@ function get_sets()
 		legs		=	"Chironic Hose",
 		feet		=	AF.Feet,
 		neck		=	"Argute Stole +2",
-		waist		=	"Rumination Sash",
+		waist		=	"Obstin. Sash",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
-        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        	left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+        	right_ring	=	"Kishar Ring",
 		back		=	"Aurist's Cape +1",
     }
+    --non immunobreak spells
+    sets.midcast["Frazzle"] = set_combine(sets.midcast.MndEnfeebling,{
+		legs		=	EMPY.Legs,
+	})
+     sets.midcast["Distract"] = sets.midcast["Frazzle"]
 	
+     sets.midcast["Dispel"] = set_combine(sets.midcast.IntEnfeebling,{ --doesnt need duration
+		hands		=	AF.Hands,
+		legs		=	EMPY.Legs,
+		waist		=	"Acuity Belt +1",
+		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+	})
+     sets.midcast['Dispelga'] = set_combine(sets.midcast["Dispel"],{
+		main		=	"Daybreak",
+		sub		=	"Ammurapi Shield",
+	})	
     -- Enhancing
     sets.midcast.enhancing = set_combine(sets.midcast.casting,{
 		ammo		=	"Pemphredo Tathlum",
 		head		=	TelHead.Dur,
 		body		=	RELIC.Body,
-		hands		=	EMPY.Hands, --could make tel hands for when perpetuance not up.
+		hands		=	TelHands.Dur,
 		legs		=	TelLeg.Dur,
 		feet		=	TelFeet.Dur,
 		neck		=	"Incanter's Torque",
@@ -876,7 +894,7 @@ function get_sets()
 		back		=	"Aurist's Cape +1",
     })
     sets.midcast.storm = set_combine(sets.midcast.enhancing,{
-		feet		=	"Peda. Loafers +3",
+		feet		=	RELIC.Feet,
     })       
     -- Stoneskin
     sets.midcast.stoneskin = set_combine(sets.midcast.enhancing,{
@@ -952,11 +970,69 @@ function get_sets()
         right_ring	=	"Mephitas's Ring +1",
 		back		=	"Aurist's Cape +1",
     })
+    sets.midcast.cure.dt = set_combine(sets.midcast.casting,{ --use when set to dt idle set.
+        ammo		=	"Staunch Tathlum +1",						--3
+		head		=	EMPY.Head,									--9
+		body		=	"Kaykaus Bliaut +1",
+		hands		=	"Kaykaus Cuffs +1",
+		legs		=	"Kaykaus Tights +1",
+		feet		=	"Kaykaus Boots +1",
+		neck		=	"Loricate Torque +1",						--6
+		waist		=	"Shinjutsu-no-Obi +1",
+		left_ear	=	"Mendi. Earring",
+		right_ear	=	"Meili Earring",
+        left_ring	=	"Gelatinous Ring +1",						--7
+        right_ring	=	"Defending Ring",							--10
+		back		=	Lugh.Omni,									--10
+																	--6 from grip
+    })
+    sets.midcast.cure.dtweather = set_combine(sets.midcast.cure.dt,{
+		waist		=	"Hachirin-no-Obi",
+    }) 
+    sets.midcast.cure.dtself = set_combine(sets.midcast.cure.dt,{
+		hands		=	TelHands.Dur,--if I made a cure potency cape I could use telchine legs as well
+		waist		=	"Gishdubar Sash",
+	}) 
+    sets.midcast.cure.dtselfweather = set_combine(sets.midcast.cure.dt,{
+		hands		=	TelHands.Dur,
+		waist		=	"Hachirin-no-Obi",
+	}) 
+		
     sets.midcast.cure.weather = set_combine(sets.midcast.cure.normal,{
 		waist		=	"Hachirin-no-Obi",
 		back		=	"Twilight Cape"
 
     }) 
+    sets.midcast.cure.self = set_combine(sets.midcast.cure.normal,{
+		ammo		=	"Pemphredo Tathlum",
+		head		=	"Kaykaus Mitra +1",
+		body		=	"Kaykaus Bliaut +1",
+		hands		=	TelHands.Dur,
+		legs		=	TelLeg.Dur,
+		feet		=	"Kaykaus Boots +1",
+		neck		=	"Phalaina Locket",
+		waist		=	"Gishdubar Sash",
+		left_ear	=	"Mendi. Earring",
+		right_ear	=	"Meili Earring",
+       		left_ring	=	"Naji's Loop",
+        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		back		=	"Aurist's Cape +1",
+	})
+    sets.midcast.cure.selfweather = set_combine(sets.midcast.cure.normal,{
+		ammo		=	"Pemphredo Tathlum",
+		head		=	"Kaykaus Mitra +1",
+		body		=	"Kaykaus Bliaut +1",
+		hands		=	TelHands.Dur,
+		legs		=	TelLeg.Dur,
+		feet		=	"Kaykaus Boots +1",
+		neck		=	"Phalaina Locket",
+		waist		=	"Hachirin-no-Obi",
+		left_ear	=	"Mendi. Earring",
+		right_ear	=	"Meili Earring",
+        	left_ring	=	"Naji's Loop",
+        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+		back		=	"Twilight Cape",
+	})
 	sets.midcast["Cursna"] = {
 		ammo		=	"Pemphredo Tathlum",
 		head		=	"Vanya Hood",
