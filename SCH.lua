@@ -333,7 +333,11 @@ function get_sets()
 		right_ring	=	"Shadow Ring",
 		back		=	Lugh.AccHas,
 	})
-      
+     
+     sets.Sleep = set_combine(sets.Shit,{
+		main		=	"Prime Staff",
+	
+	}) 
     -- Weapon Skills sets just add them by name.
     sets.me["Shattersoul"] = {
 		ammo		=	"Ghastly Tathlum +1",
