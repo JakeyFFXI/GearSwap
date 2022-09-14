@@ -190,7 +190,7 @@ function get_sets()
 	-- Fill this with your own JSE. 
     AF.Head		=	"Brioso Roundlet +3"
     AF.Body		=	"Brioso Just."
-    AF.Hands	=	"Brioso Cuffs +3"
+    AF.Hands		=	"Brioso Cuffs +3"
     AF.Legs		=	"Brioso Cannions"
     AF.Feet		=	"Brioso Slippers +3"
 
@@ -202,11 +202,11 @@ function get_sets()
     RELIC.Feet		=	"Bihu Slippers +1"
 
 
-    EMPY.Head		=	"Fili Calot +1"
-    EMPY.Body		=	"Fili Hongreline +1"
-    EMPY.Hands		=	"Fili Manchettes +1"
-    EMPY.Legs		=	"Fili Rhingrave +1"
-    EMPY.Feet		=	"Fili Cothurnes +1"
+    EMPY.Head		=	"Fili Calot +2"
+    EMPY.Body		=	"Fili Hongreline +2"
+    EMPY.Hands		=	"Fili Manchettes +2"
+    EMPY.Legs		=	"Fili Rhingrave +2"
+    EMPY.Feet		=	"Fili Cothurnes +2"
 
 	TelHead = {}
 	TelHead.Dur = { name="Telchine Cap", augments={'Enh. Mag. eff. dur. +9',}}
@@ -258,30 +258,32 @@ function get_sets()
         hands		=	"Nyame Gauntlets",
         legs		=	"Nyame Flanchard",
         feet		=	EMPY.Feet,
-		waist		=	"Fucho-no-Obi",
+	waist		=	"Fucho-no-Obi",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
         right_ring	=	{name="Stikini Ring +1", bag="wardrobe2"},
-		back		=	BRDCape.DW,
+	back		=	BRDCape.DW,
     })  
 	 sets.avatar.dt = {
-		neck		=	"Rep. Plat. Medal",
+	neck		=	"Rep. Plat. Medal",
         head		=	"Nyame Helm",
         body		=	"Nyame Mail",
         hands		=	"Nyame Gauntlets",
         legs		=	"Assid. Pants +1",
         feet		=	"Artsieq Boots",
-		waist		=	"Fucho-no-Obi",
-		right_ear	=	"Evans Earring",
+	waist		=	"Fucho-no-Obi",
+	right_ear	=	"Evans Earring",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
         right_ring	=	{name="Stikini Ring +1", bag="wardrobe2"},
-		back		=	BRDCape.DW,
+	back		=	BRDCape.DW,
     }
 
 	-- Your MP Recovered Whilst Resting Set
     sets.me.resting = { 
 
     }
-    
+    sets.Sleep = set_combine(sets.me.idle.dt ,{
+	ranged		=	"Prime Horn",
+	})
     sets.me.latent_refresh = {waist="Fucho-no-obi"}     
     
 	-- Combat Related Sets
