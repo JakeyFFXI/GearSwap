@@ -635,6 +635,20 @@ function buff_change(name,gain,buff_details)
     if use_UI == true then
         validateTextInformation()
     end
+    if (name == "sleep" and gain) and player.hp > 2 then 
+        equip(sets.Sleep)
+        if buffactive['Stoneskin'] then
+            windower.ffxi.cancel_buff(37) 
+        end
+    elseif name == "sleep" then
+	if player.sub_job == 'WHM' then
+		send_command('input /ma "Curaga" <me>')
+	elseif player.sub_job == 'DNC' then
+		send_command('input /ja "Divine Waltz" <me>')
+	else
+		idle()
+	end
+    end
 end
  
 function precast(spell,action)
