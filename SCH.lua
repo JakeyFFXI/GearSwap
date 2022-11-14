@@ -84,7 +84,7 @@ subWeapon = M('Khonsu','Rigorous Grip +1')
 idleModes = M('refresh', 'dt')
 regenModes = M('hybrid', 'duration')
 -- To add a new mode to nuking, you need to define both sets: sets.midcast.nuking.mynewmode as well as sets.midcast.MB.mynewmode
-nukeModes = M('normal', 'acc', 'occult')
+nukeModes = M('normal', 'MB', 'occult')
 
 -- Setting this to true will stop the text spam, and instead display modes in a UI.
 -- Currently in construction.
@@ -103,10 +103,10 @@ hud_font = 'Impact'
     windower.send_command('bind f10 gs c toggle idlemode')       -- F9 to change Idle Mode    
     windower.send_command('bind !` input /ma Stun <t>') 		-- Alt-` Quick Stun Shortcut.
     windower.send_command('bind !home gs c sc tier')				-- home to change SC tier between Level 1 or Level 2 SC
-    windower.send_command('bind end gs c toggle regenmode')		-- end to change Regen Mode	
+    windower.send_command('bind end gs c toggle regenmode')		-- end to change Regen Mode
     windower.send_command('bind !f8 gs c toggle mainweapon')	-- Alt-F8 Toggle Main Weapon
     windower.send_command('bind ^f8 gs c toggle subweapon')		-- CTRL-F8 Toggle sub Weapon.	
-    windower.send_command('bind !f10 gs c toggle mb')            -- F10 toggles Magic Burst Mode on / off.
+    --windower.send_command('bind !f10 gs c toggle mb')            -- F10 toggles Magic Burst Mode on / off. not functioning instead toggle nuke set to MB
     windower.send_command('bind f11 gs c toggle nukemode')		-- Alt-F10 to change Nuking Mode
     windower.send_command('bind ^F11 gs c toggle matchsc')      -- CTRL-F10 to change Match SC Mode
     --windower.send_command('bind !end gs c hud lite')            -- Alt-End to toggle light hud version   
@@ -169,7 +169,7 @@ function get_sets()
     -- My formatting is very easy to follow. All sets that pertain to my character doing things are under 'me'.
     -- All sets that are equipped to faciliate my avatar's behaviour or abilities are under 'avatar', eg, Perpetuation, Blood Pacts, etc
       
-    sets.me = {}        		-- leave this empty
+    sets.me = {}  	-- leave this empty
     sets.htp = {}
     sets.buff = {} 				-- leave this empty
     sets.me.idle = {}			-- leave this empty
@@ -180,7 +180,7 @@ function get_sets()
     EMPY = {}       -- leave this empty
 	
 		-- Fill this with your own JSE. 
-       --Academic's
+    --Academic's
     AF.Head		=	"Acad. Mortar. +3"
     AF.Body		=	"Acad. Gown +3"
     AF.Hands	=	"Acad. Bracers +3"
@@ -195,16 +195,17 @@ function get_sets()
     RELIC.Feet		=	"Peda. Loafers +3"
 
     --Arbatel
-    EMPY.Head		=	"Arbatel Bonnet +2"
+    EMPY.Head		=	"Arbatel Bonnet +3"
     EMPY.Body		=	"Arbatel Gown +2"
     EMPY.Hands		=	"Arbatel Bracers +2"
     EMPY.Legs		=	"Arbatel Pants +2"
-    EMPY.Feet		=	"Arbatel Loafers +2"
+    EMPY.Feet		=	"Arbatel Loafers +3"
 	
 	Lugh = {}
 	Lugh.INTMAB ={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','"Mag.Atk.Bns."+10','Damage taken-5%',}}
 	Lugh.AccHas ={ name="Lugh's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}}
-	Lugh.Omni ={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%',}}
+	Lugh.Omni ={ name="Lugh's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','MND+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
+	Lugh.Cata ={ name="Lugh's Cape", augments={'INT+20','Mag. Acc+20 /Mag. Dmg.+20','INT+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}}
 	
 	TelBod = {}
 	TelBod.Dur = { name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}}
@@ -255,6 +256,7 @@ function get_sets()
 	ChironicFeet.Phalanx = { name="Chironic Slippers", augments={'Pet: STR+3','MND+10','Phalanx +5','Mag. Acc.+1 "Mag.Atk.Bns."+1',}}
 	ChironicFeet.Ref = { name="Chironic Slippers", augments={'Pet: Mag. Acc.+17','Pet: "Dbl.Atk."+2 Pet: Crit.hit rate +2','"Refresh"+2','Accuracy+10 Attack+10',}}
 	
+	
     -- Your idle set
     sets.me.idle.refresh = {
 		ammo		=	"Homiliary",
@@ -267,8 +269,8 @@ function get_sets()
 		waist		=	"Carrier's Sash",
 		left_ear	=	"Infused Earring",
 		right_ear	=	"Savant's Earring",
-        	left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
-        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	Lugh.AccHas
     }
 
@@ -302,7 +304,12 @@ function get_sets()
     }
     
     sets.me.latent_refresh = {waist="Fucho-no-obi"}     
-    
+    sets.me.warder = {
+		neck 		=	"Warder's Charm +1",
+		}
+	sets.me.chrys =	{
+		neck		=	"Chrys. Torque",
+		}
 	-- Combat Related Sets
     sets.me.melee = set_combine(sets.me.idle[idleModes.current],{
 		ammo		=	"Crepuscular Pebble",
@@ -333,11 +340,12 @@ function get_sets()
 		right_ring	=	"Shadow Ring",
 		back		=	Lugh.AccHas,
 	})
-     
-     sets.Sleep = set_combine(sets.Shit,{
+    
+	sets.Sleep = set_combine(sets.Shit,{
 		main		=	"Prime Staff",
 	
-	}) 
+	})
+	
     -- Weapon Skills sets just add them by name.
     sets.me["Shattersoul"] = {
 		ammo		=	"Ghastly Tathlum +1",
@@ -395,8 +403,8 @@ function get_sets()
 		head		=	"Pixie Hairpin +1",
 		body		=	"Nyame Mail",
 		hands		=	"Jhakri Cuffs +2",
-		legs		=	"Amalric Slops +1",
-		feet		=	"Amalric Nails +1",
+		legs		=	"Agwu's Slops",
+		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		waist		=	"Orpheus's Sash",
 		left_ear	=	"Regal Earring",
@@ -427,11 +435,18 @@ function get_sets()
 	sets.me["Sunburst"] = sets.me["Omniscience"] 
 	sets.me["Starburst"] = sets.me["Omniscience"] 
 	
-	sets.me["Rock Crusher"] = set_combine(sets.me["Omniscience"],{
+	sets.me["Rock Crusher"] = set_combine(sets.me["Cataclysm"],{
 		head 		=	"Agwu's Cap",
+		neck		=	"Quanpur Necklace",
 		left_ring	=	"Freke Ring",
 	})
+	sets.htp["Rock Crusher"] = { 
+		right_ear	=	"Malignance Earring",
+	}
 	sets.me["Earth Crucher"] =sets.me["Rock Crusher"]
+	sets.htp["Earth Crucher"] = { 
+		right_ear	=	"Malignance Earring",
+	}
     -- Feel free to add new weapon skills, make sure you spell it the same as in game. These are the only two I ever use though
 	sets.me.Occult={
 		ammo		=	"Seraphic Ampulla",
@@ -467,11 +482,11 @@ function get_sets()
     sets.buff['Celerity'] = {feet=RELIC.Feet}
     sets.buff['Alacrity'] = {feet=RELIC.Feet}
     sets.buff['Klimaform'] = { 
-	feet = EMPY.Feet}	
-    sets.buff.KlimaNuke= {--with empy feet +2 this beats relic head but don't need for everything
-	head = "Agwu's Cap",}
+		feet = EMPY.Feet}	
+	sets.buff.KlimaNuke= {--with empy feet +2 this beats relic head but don't need for everything
+		head = "Agwu's Cap",}
     -- Ebulience set empy now as we get better damage out of a good Merlinic head
-    sets.buff['Ebullience'] = {} -- put empy head in once +2
+    sets.buff['Ebullience'] = {head = EMPY.Head} -- put empy head in once +2
    
 	
 	
@@ -481,8 +496,8 @@ function get_sets()
     sets.precast = {}   		-- Leave this empty  
     sets.midcast = {}    		-- Leave this empty  
     sets.aftercast = {}  		-- Leave this empty  
-    sets.midcast.nuking = {}	-- leave this empty
-    sets.midcast.MB	= {}		-- leave this empty      
+	sets.midcast.nuking = {}	-- leave this empty
+	sets.midcast.MB	= {}		-- leave this empty      
     ----------
     -- Precast
     ----------
@@ -537,10 +552,8 @@ function get_sets()
     })
 	
     sets.precast['Impact']=set_combine(sets.precast.casting,{
-		ammo		=	"Sapience Orb", --only want to trade in quick cast for fast cast while subjobless content is common.
 		head		=	empty,
 		body		=	"Crepuscular Cloak",
-		waist		=	"Shinjutsu-no-Obi +1"
 	})
 	
 	sets.precast['Dispelga'] = set_combine(sets.precast.casting,{
@@ -581,11 +594,11 @@ function get_sets()
 	sets.midcast["Sublimation"] = sets.precast["Sublimation"] 
 	
     sets.midcast.nuking.normal = {
-       	        ammo		=	"Ghastly Tathlum +1",
+        ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
-		body		=	"Agwu's Robe",--"Seidr Cotehardie",
-		hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
+		body		=	"Agwu's Robe",	--empy +3				--"Seidr Cotehardie",
+		hands		=	"Agwu's Gages", --empy +3
+		legs		=	"Agwu's Slops", --empy +3
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		waist		=	"Acuity Belt +1",
@@ -598,20 +611,23 @@ function get_sets()
     -- used with toggle, default: F10
     -- Pieces to swap from freen nuke to Magic Burst
     sets.midcast.MB.normal = set_combine(sets.midcast.nuking.normal, {
-		head		=	RELIC.Head,
+		head		=	"Agwu's Cap",
 		body		=	"Agwu's Robe",
 		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
+		feet		=	EMPY.Feet,
 		neck		=	"Argute Stole +2",
     })
 	
-	sets.midcast['Impact'] = set_combine(sets.me.Occult,{
+	sets.midcast.nuking.MB = sets.midcast.MB.normal --makes a toggle to only use MB sets so even if I start before SC completes I cast in MB set
+	sets.midcast.MB.MB = sets.midcast.MB.normal
+	
+	sets.midcast['Impact'] = set_combine(sets.midcast.nuking.normal,{
 		ammo		=	"Pemphredo Tathlum",
 		head		=	empty,
 		body		=	"Crepuscular Cloak",
 		hands		=	AF.Hands,
-		legs		=	RELIC.Legs,
+		legs		=	EMPY.Legs,
 		feet		=	AF.Feet,
 		neck		=	"Argute Stole +2",
 		waist		=	"Acuity Belt +1",
@@ -626,7 +642,7 @@ function get_sets()
 		body		=	"Crepuscular Cloak",
 	})
 	
-	
+	--no longer a relevant set but will leave in case I see a need to remake
     sets.midcast.nuking.acc = {
 		ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
@@ -685,14 +701,14 @@ function get_sets()
 	sets.midcast.Helix2.normal = set_combine(sets.midcast.nuking.normal, {
         ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
-		body		=	"Agwu's Robe",
-		hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
+		body		=	"Agwu's Robe",--empy +3
+		hands		=	"Agwu's Gages", --empy +3
+		legs		=	"Agwu's Slops", --empy +3
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-		left_ring	=	"Metamor. Ring +1", --"Mallquis Ring", --helix 2 Dint caps very low, if capped mallquis wins
+		left_ring	=	"Mallquis Ring", --helix 2 Dint caps very low, if capped mallquis beats metamorph, with ML/buffs this is always the case atm.
 		right_ring	=	"Freke Ring",
 		waist		=	"Skrymir Cord +1",
 		back		=	Bookworm.Helix,
@@ -703,7 +719,7 @@ function get_sets()
 		body		=	"Agwu's Robe",
 		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
+		feet		=	EMPY.Feet,
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
@@ -718,9 +734,9 @@ function get_sets()
     sets.midcast.DarkHelix2.normal = {
         ammo		=	"Ghastly Tathlum +1",
 		head		=	"Pixie Hairpin +1",
-		body		=	"Agwu's Robe",
-		hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
+		body		=	"Agwu's Robe", --empy+3
+		hands		=	"Agwu's Gages", --empy +3
+		legs		=	"Agwu's Slops", --empy +3
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
@@ -736,12 +752,12 @@ function get_sets()
 		body		=	"Agwu's Robe",
 		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
+		feet		=	EMPY.Feet,
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
 		left_ring	=	"Archon Ring",
-		right_ring	=	"Freke Ring",
+		right_ring	=	"Mujin Band",
 		waist		=	"Skrymir Cord +1",
 		back		=	Bookworm.Helix,
     }
@@ -749,10 +765,10 @@ function get_sets()
 	sets.midcast.Kaust.normal = {
         ammo		=	"Ghastly Tathlum +1",
 		head		=	"Pixie Hairpin +1",
-		body		=	"Agwu's Robe",
+		body		=	"Agwu's Robe", --empy +3
 		hands		=	"Amalric Gages +1",
-		legs		=	"Amalric Slops +1",
-		feet		=	"Amalric Nails +1",
+		legs		=	"Amalric Slops +1", --empy +3
+		feet		=	"Amalric Nails +1", --empy +3
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
@@ -767,7 +783,7 @@ function get_sets()
 		body		=	"Agwu's Robe",
 		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
+		feet		=	EMPY.Feet,
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
@@ -785,9 +801,9 @@ function get_sets()
 		sub			=	"Culminus",
         ammo		=	"Ghastly Tathlum +1",
 		head		=	"Agwu's Cap",
-		body		=	"Agwu's Robe",
-		hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
+		body		=	"Agwu's Robe",--empy +3
+		hands		=	"Agwu's Gages",--empy +3
+		legs		=	"Agwu's Slops", --empy +3
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
@@ -807,11 +823,11 @@ function get_sets()
 		body		=	"Agwu's Robe",
 		hands		=	"Agwu's Gages",
 		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
+		feet		=	EMPY.Feet,
 		neck		=	"Argute Stole +2",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-		right_ring	=	"Freke Ring",
+		right_ring	=	"Mujin Band",
 		left_ring	=	"Weather. Ring +1",	
 		waist		=	"Skrymir Cord +1",
 		back		=	Bookworm.Helix,
@@ -821,7 +837,7 @@ function get_sets()
     -- Enfeebling
 	--to reach 90% recast reduction with weather and relic feet and alacrity need 0 fast cast although some in case conditions not met are nice and I do need capped haste.
 	sets.midcast["Stun"] = {
-		ammo		=	"Pemphredo Tathlum",
+		ammo		=	"Hasty Pinion +1",
 		head		=	AF.Head,
 		body		=	AF.Body,
 		hands		=	AF.Hands,
@@ -846,8 +862,8 @@ function get_sets()
 		waist		=	"Obstin. Sash",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-		left_ring	=	"Metamor. Ring +1",
-        	right_ring	=	"Kishar Ring",
+        left_ring	=	"Metamor. Ring +1",
+        right_ring	=	"Kishar Ring",
 		back		=	"Aurist's Cape +1",
     }
     sets.midcast.MndEnfeebling = {
@@ -861,26 +877,26 @@ function get_sets()
 		waist		=	"Obstin. Sash",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-        	left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
-        	right_ring	=	"Kishar Ring",
+        left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
+        right_ring	=	"Kishar Ring",
 		back		=	"Aurist's Cape +1",
     }
-    --non immunobreak spells
-    sets.midcast["Frazzle"] = set_combine(sets.midcast.MndEnfeebling,{
+	--non immunobreak spells
+	sets.midcast["Frazzle"] = set_combine(sets.midcast.MndEnfeebling,{
 		legs		=	EMPY.Legs,
 	})
-     sets.midcast["Distract"] = sets.midcast["Frazzle"]
+	sets.midcast["Distract"] = sets.midcast["Frazzle"]
 	
-     sets.midcast["Dispel"] = set_combine(sets.midcast.IntEnfeebling,{ --doesnt need duration
+	sets.midcast["Dispel"] = set_combine(sets.midcast.IntEnfeebling,{ --doesnt need duration
 		hands		=	AF.Hands,
 		legs		=	EMPY.Legs,
 		waist		=	"Acuity Belt +1",
 		right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 	})
-     sets.midcast['Dispelga'] = set_combine(sets.midcast["Dispel"],{
+	sets.midcast['Dispelga'] = set_combine(sets.midcast["Dispel"],{
 		main		=	"Daybreak",
-		sub		=	"Ammurapi Shield",
-	})	
+		sub			=	"Ammurapi Shield",
+	})
     -- Enhancing
     sets.midcast.enhancing = set_combine(sets.midcast.casting,{
 		ammo		=	"Pemphredo Tathlum",
@@ -974,7 +990,7 @@ function get_sets()
         right_ring	=	"Mephitas's Ring +1",
 		back		=	"Aurist's Cape +1",
     })
-    sets.midcast.cure.dt = set_combine(sets.midcast.casting,{ --use when set to dt idle set.
+	sets.midcast.cure.dt = set_combine(sets.midcast.casting,{ --use when set to dt idle set.
         ammo		=	"Staunch Tathlum +1",						--3
 		head		=	EMPY.Head,									--9
 		body		=	"Kaykaus Bliaut +1",
@@ -990,14 +1006,14 @@ function get_sets()
 		back		=	Lugh.Omni,									--10
 																	--6 from grip
     })
-    sets.midcast.cure.dtweather = set_combine(sets.midcast.cure.dt,{
+	sets.midcast.cure.dtweather = set_combine(sets.midcast.cure.dt,{
 		waist		=	"Hachirin-no-Obi",
     }) 
-    sets.midcast.cure.dtself = set_combine(sets.midcast.cure.dt,{
+	sets.midcast.cure.dtself = set_combine(sets.midcast.cure.dt,{
 		hands		=	TelHands.Dur,--if I made a cure potency cape I could use telchine legs as well
 		waist		=	"Gishdubar Sash",
 	}) 
-    sets.midcast.cure.dtselfweather = set_combine(sets.midcast.cure.dt,{
+	sets.midcast.cure.dtselfweather = set_combine(sets.midcast.cure.dt,{
 		hands		=	TelHands.Dur,
 		waist		=	"Hachirin-no-Obi",
 	}) 
@@ -1007,7 +1023,7 @@ function get_sets()
 		back		=	"Twilight Cape"
 
     }) 
-    sets.midcast.cure.self = set_combine(sets.midcast.cure.normal,{
+	sets.midcast.cure.self = set_combine(sets.midcast.cure.normal,{
 		ammo		=	"Pemphredo Tathlum",
 		head		=	"Kaykaus Mitra +1",
 		body		=	"Kaykaus Bliaut +1",
@@ -1018,11 +1034,11 @@ function get_sets()
 		waist		=	"Gishdubar Sash",
 		left_ear	=	"Mendi. Earring",
 		right_ear	=	"Meili Earring",
-       		left_ring	=	"Naji's Loop",
-        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        left_ring	=	"Naji's Loop",
+        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	"Aurist's Cape +1",
 	})
-    sets.midcast.cure.selfweather = set_combine(sets.midcast.cure.normal,{
+	sets.midcast.cure.selfweather = set_combine(sets.midcast.cure.normal,{
 		ammo		=	"Pemphredo Tathlum",
 		head		=	"Kaykaus Mitra +1",
 		body		=	"Kaykaus Bliaut +1",
@@ -1033,8 +1049,8 @@ function get_sets()
 		waist		=	"Hachirin-no-Obi",
 		left_ear	=	"Mendi. Earring",
 		right_ear	=	"Meili Earring",
-        	left_ring	=	"Naji's Loop",
-        	right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        left_ring	=	"Naji's Loop",
+        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	"Twilight Cape",
 	})
 	sets.midcast["Cursna"] = {
@@ -1069,7 +1085,7 @@ function get_sets()
 		ammo		=	"Homiliary",
 		head		=	EMPY.Head,
 		body		=	TelBod.Dur,
-		hands		=	EMPY.Hands,
+		hands		=	TelHands.Dur,
 		legs		=	TelLeg.Dur,
 		feet		=	TelFeet.Dur,
 		neck		=	"Incanter's Torque",
