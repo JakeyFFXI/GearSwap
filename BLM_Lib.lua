@@ -65,6 +65,7 @@ spell_maps = {
     ['Fire Maneuver']='Maneuver',['Ice Maneuver']='Maneuver',['Wind Maneuver']='Maneuver',['Earth Maneuver']='Maneuver',['Thunder Maneuver']='Maneuver',['Water Maneuver']='Maneuver',['Light Maneuver']='Maneuver',['Dark Maneuver']='Maneuver',
 	['Enstone']='Enspell',['Enwater']='Enspell',['Enaero']='Enspell',['Enfire']='Enspell',['Enblizzard']='Enspell',['Enthunder']='Enspell',
 	['Gain-STR']='GainStat',['Gain-DEX']='GainStat',['Gain-VIT']='GainStat',['Gain-AGI']='GainStat',['Gain-INT']='GainStat',['Gain-MND']='GainStat',['Gain-CHR']='GainStat',
+	['Stoneja']='NukeJa',['Waterja']='NukeJa',['Thundaja']='NukeJa',['Firaja']='NukeJa',['Blizzaja']='NukeJa',['Aeroja']='NukeJa',['Comet']='NukeJa',
 	}
 
 enfeeb_maps = {
@@ -213,7 +214,6 @@ function validateTextInformation()
 	main_text_hub.player_current_subweapon = subWeapon.current
     main_text_hub.player_current_casting = nukeModes.current
     main_text_hub.toggle_element_cycle = elements.current
-    main_text_hub.toggle_enspell_cycle = enspellElements.current
 	main_text_hub.player_current_feet = vroom.current
     main_text_hub.player_job = player.job
 
@@ -251,7 +251,6 @@ function validateTextInformation()
         texts.update(main_text_hub, keybinds_off)
     end
     main_text_hub.element_color = Colors[elements.current]
-    main_text_hub.enspell_color = Colors[enspellElements.current]
     main_text_hub.sc_element_color = scColor
 end
 
@@ -424,15 +423,18 @@ end
 
 
 nukes = {}
-nukes.t1 = {['Earth']="Stone",      ['Water']="Water",      ['Wind']="Aero",     ['Fire']="Fire",    ['Ice']="Blizzard",     ['Lightning']="Thunder", ['Light']="Thunder", ['Dark']="Stone"}
-nukes.t2 = {['Earth']="Stone II",   ['Water']="Water II",   ['Wind']="Aero II",  ['Fire']="Fire II", ['Ice']="Blizzard II",  ['Lightning']="Thunder II", ['Light']="Thunder II", ['Dark']="Stone III"}
-nukes.t3 = {['Earth']="Stone III",  ['Water']="Water III",  ['Wind']="Aero III", ['Fire']="Fire III",['Ice']="Blizzard III", ['Lightning']="Thunder III", ['Light']="Thunder III", ['Dark']="Stone IV"}
-nukes.t4 = {['Earth']="Stone IV",   ['Water']="Water IV",   ['Wind']="Aero IV",  ['Fire']="Fire IV", ['Ice']="Blizzard IV",  ['Lightning']="Thunder IV", ['Light']="Thunder IV", ['Dark']="Stone V"}
-nukes.t5 = {['Earth']="Stone V",    ['Water']="Water V",    ['Wind']="Aero V",   ['Fire']="Fire V",  ['Ice']="Blizzard V",   ['Lightning']="Thunder V", ['Light']="Thunder V", ['Dark']="Comet"}
-nukes.t6 = {['Earth']="Stone VI",    ['Water']="Water VI",    ['Wind']="Aero VI",   ['Fire']="Fire VI",  ['Ice']="Blizzard VI",   ['Lightning']="Thunder VI", ['Light']="Thunder VI", ['Dark']="Death"}
-nukes.helix = {['Earth']="Geohelix",  ['Water']="Hydrohelix", ['Wind']="Anemohelix",['Fire']="Pyrohelix", ['Ice']="Cryohelix", ['Lightning']="Ionohelix",    ['Light']="Luminohelix", ['Dark']="Noctohelix"}
-nukes.storm = {['Earth']="Sandstorm", ['Water']="Rainstorm",  ['Wind']="Windstorm", ['Fire']="Firestorm", ['Ice']="Hailstorm", ['Lightning']="Thunderstorm", ['Light']="Aurorastorm", ['Dark']="Voidstorm"}
-nukes.enspell = {['Earth']="Enstone", ['Water']="Enwater",  ['Wind']="Enaero", ['Fire']="Enfire", ['Ice']="Enblizzard", ['Lightning']="Enthunder", ['Light']="Enthunder", ['Dark']="Enblizzard"}
+nukes.t1 = {['Earth']="Stone",      ['Water']="Water",      ['Wind']="Aero",     ['Fire']="Fire",    ['Ice']="Blizzard",     ['Lightning']="Thunder", ['Light']="Fire", ['Dark']="Stone"}
+nukes.t2 = {['Earth']="Stone II",   ['Water']="Water II",   ['Wind']="Aero II",  ['Fire']="Fire II", ['Ice']="Blizzard II",  ['Lightning']="Thunder II", ['Light']="Fire II", ['Dark']="Stone III"}
+nukes.t3 = {['Earth']="Stone III",  ['Water']="Water III",  ['Wind']="Aero III", ['Fire']="Fire III",['Ice']="Blizzard III", ['Lightning']="Thunder III", ['Light']="Fire III", ['Dark']="Stone IV"}
+nukes.t4 = {['Earth']="Stone IV",   ['Water']="Water IV",   ['Wind']="Aero IV",  ['Fire']="Fire IV", ['Ice']="Blizzard IV",  ['Lightning']="Thunder IV", ['Light']="Fire IV", ['Dark']="Stone V"}
+nukes.t5 = {['Earth']="Stone V",    ['Water']="Water V",    ['Wind']="Aero V",   ['Fire']="Fire V",  ['Ice']="Blizzard V",   ['Lightning']="Thunder V", ['Light']="Fire V", ['Dark']="Comet"}
+nukes.t6 = {['Earth']="Stone VI",   ['Water']="Water VI",   ['Wind']="Aero VI",  ['Fire']="Fire VI", ['Ice']="Blizzard VI",  ['Lightning']="Thunder VI", ['Light']="Fire VI", ['Dark']="Death"}
+nukes.g1 = {['Earth']="Stonega",      ['Water']="Waterga",    ['Wind']="Aeroga",    ['Fire']="Firaga",    ['Ice']="Blizzaga",    ['Lightning']="Thundaga",     ['Light']="Firaga",      ['Dark']="Stonega"}
+nukes.g2 = {['Earth']="Stonega II",   ['Water']="Waterga II", ['Wind']="Aeroga II", ['Fire']="Firaga II", ['Ice']="Blizzaga II", ['Lightning']="Thundaga II",  ['Light']="Firaga II",   ['Dark']="Stonega II"}
+nukes.g3 = {['Earth']="Stonega III",  ['Water']="Waterga III",['Wind']="Aeroga III",['Fire']="Firaga III",['Ice']="Blizzaga III",['Lightning']="Thundaga III", ['Light']="Firaga III",  ['Dark']="Stonega III"}
+nukes.ja = {['Earth']="Stoneja",      ['Water']="Waterja",    ['Wind']="Aeroja",    ['Fire']="Firaja",    ['Ice']="Blizzaja",    ['Lightning']="Thundaja",     ['Light']="Firaja",      ['Dark']="Comet"}
+nukes.helix = {['Earth']="Geohelix",  ['Water']="Hydrohelix", ['Wind']="Anemohelix",['Fire']="Pyrohelix", ['Ice']="Cryohelix",   ['Lightning']="Ionohelix",    ['Light']="Luminohelix", ['Dark']="Noctohelix"}
+nukes.storm = {['Earth']="Sandstorm", ['Water']="Rainstorm",  ['Wind']="Windstorm", ['Fire']="Firestorm", ['Ice']="Hailstorm",   ['Lightning']="Thunderstorm", ['Light']="Aurorastorm", ['Dark']="Voidstorm"}
 
 elements =  M('Ice', 'Wind', 'Earth', 'Lightning', 'Water', 'Fire','Dark')
 enspellElements =  M('Ice', 'Wind', 'Earth', 'Lightning', 'Water', 'Fire')
@@ -460,7 +462,6 @@ Buff =
         ['Elemental Seal'] = false, 
         ['En-Weather'] = false,
         ['En-Day'] = false,
-        ['Enspell'] = false,
     }
     
 -- Get a spell mapping for the spell.
@@ -475,9 +476,6 @@ end
 function update_active_ja(name, gain)
     Buff['Mana Wall'] = buffactive['Mana Wall'] or false
     Buff['Elemental Seal'] = buffactive['Elemental Seal'] or false
-    Buff['En-Weather'] = buffactive[nukes.enspell[world.weather_element]] or false
-    Buff['En-Day'] = buffactive[nukes.enspell[world.day_element]] or false
-    Buff['Enspell'] = buffactive[nukes.enspell[1]] or buffactive[nukes.enspell[2]] or buffactive[nukes.enspell[3]] or buffactive[nukes.enspell[4]] or buffactive[nukes.enspell[5]] or buffactive[nukes.enspell[6]] or buffactive[nukes.enspell[7]] or buffactive[nukes.enspell[8]] or false
 end
 
 function buff_refresh(name,buff_details)
@@ -554,7 +552,17 @@ function precast(spell)
     -- catch all here, if the set exists for an ability, use it
     -- This way we don't need to write a load of different code for different abilities, just make a set
     if sets.precast[spell.name] then
-        equip(sets.precast[spell.name])        
+		if spell.name == "Impact" then--these were added to stop bubbles causing problems
+			equip(sets.precast[spell.name])
+			send_command('gs disable body')
+			send_command('gs disable head')
+		elseif spell.name == "Dispelga" then
+			equip(sets.precast[spell.name])
+			send_command('gs disable main')
+			send_command('gs disable sub')
+		else
+			equip(sets.precast[spell.name])
+		end
     end
 end
  
@@ -617,6 +625,9 @@ function midcast(spell)
         else
             equip(sets.midcast.nuking[nukeModes.current])
         end
+		if spellMap == 'NukeJa' then --put empy legs on for 
+			equip(sets.midcast.Ja)
+		end
         -- Obi up for matching weather / day
 		if player.status=='Engaged' and (spell.skill == 'Elemental Magic' or spell.name:match('Drain') or spell.name:match('Aspir') or spell.name:match('Death')) and spellMap ~= 'Helix' then
 			if spell.element == "Dark" or spell.element == "Light" then  --light or dark
@@ -741,7 +752,14 @@ function midcast(spell)
 end
 
 function aftercast(spell) 
-
+	if spell.name == "Impact" then
+		send_command('gs enable body')
+		send_command('gs enable head')
+	elseif spell.name == "Dispelga" then
+		send_command('gs enable main')
+		send_command('gs enable sub')
+	end
+	
     -- Then initiate idle function to check which set should be equipped
     update_active_ja()
     idle()
@@ -753,7 +771,7 @@ function idle()
     if (meleeing.current and player.status=='Engaged') then   
         -- We're engaged and meleeing
         equip(sets.me.melee) 
-		if player.TP > 2800 then
+		if player.TP > 2900  and not buffactive['Aftermath: Lv.2']then
 			equip(sets.me.chrys)
 		end
     else
@@ -768,9 +786,9 @@ function idle()
 		if idleModes.value == 'dt' and mainWeapon.current == "Archmage's Staff" then
 			equip({left_ring	=	{name="Stikini Ring +1", bag="wardrobe"}})
 		end
-		if player.TP > 2600 and player.TP <= 2800 then --stop gaining tp
+		if player.TP > 2600 and player.TP <= 2900 and not buffactive['Aftermath: Lv.2'] then --stop gaining tp
 			equip(sets.me.warder)
-		elseif player.TP > 2800 then
+		elseif player.TP > 2900 and not buffactive['Aftermath: Lv.2'] then
 			equip(sets.me.chrys)
 		end
 		
@@ -782,16 +800,6 @@ end
  
 function EnspellCheck()
 
-    -- Enspell matches double weather
-    if Buff['En-Weather'] and get_weather_intensity() == 2 then
-        equip(sets.midcast.Obi)
-	-- Enspell matches day AND weather
-	elseif Buff['En-Weather'] and Buff['En-Day'] then
-        equip(sets.midcast.Obi)
-    -- Enspell is there but doesnt match a double weather
-    elseif Buff['Enspell'] then
-        equip(sets.midcast.Orpheus)
-    end 
 end
 
 function status_change(new,old)
@@ -932,17 +940,6 @@ function self_command(command)
                 else
                     windower.add_to_chat(211,'Enspell now set to element type: '..tostring(elements.current))
                 end  
-            elseif (nuke == 'enspellup' or nuke == 'enspelldown') then
-                if nuke == 'enspellup' then
-                    enspellElements:cycle()
-                elseif nuke == 'enspelldown' then 
-                    enspellElements:cycleback()
-                end     
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(211,'Enspell now set to element type: '..tostring(elements.current))
-                end 
             elseif (nuke == 'Wind' or nuke == 'ice' or nuke == 'fire' or nuke == 'water' or nuke == 'lightning' or nuke == 'earth' or nuke == 'light' or nuke == 'dark') then
                 local newType = commandArgs[2]
                 elements:set(newType)
@@ -1307,6 +1304,19 @@ function downgradenuke( spell )
         end
         send_command('input /ma "'..newspell..'"')
     end
+	if spell.name:match(nukes.g1[elements.current]) or spell.name:match(nukes.ja[elements.current])  then
+		if spell.name == nukes.ja[elements.current] then
+			newspell = nukes.g3[elements.current]
+        elseif spell.name == nukes.g3[elements.current] then
+            newspell = nukes.g2[elements.current]
+        elseif spell.name == nukes.g2[elements.current] then
+            newspell = nukes.g1[elements.current]
+		elseif spell.name == nukes.g1[elements.current] then
+            newspell = ""
+		end
+		send_command('input /ma "'..newspell..'"')
+    end
+	
 	if spell.name:match("Aspir") then   
         if spell.name == "Aspir III" then
             newspell = "Aspir II"
