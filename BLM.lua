@@ -64,8 +64,8 @@ include('Modes.lua')
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
 -- Same idea for nuke modes. 
 idleModes = M('refresh', 'dt', 'death')
-meleeModes = M('normal', 'acc')
-nukeModes = M('normal', 'acc', 'naked','occult')
+meleeModes = M('normal', 'nuke')
+nukeModes = M('normal', 'MB')--'acc','naked','occult'
 
 ------------------------------------------------------------------------------------------------------
 -- Important to read!
@@ -166,7 +166,7 @@ function get_sets()
 
     AF.Head		=	""
     AF.Body		=	"Spaekona's Coat +3"
-    AF.Hands	=	""
+    AF.Hands	=	"Spae. Gloves +3"
     AF.Legs		=	"Spae. Tonban +3"
     AF.Feet		=	""
 
@@ -178,11 +178,11 @@ function get_sets()
     RELIC.Feet		=	"Arch. Sabots +3"
 
 
-    EMPY.Head		=	""
-    EMPY.Body		=	""
+    EMPY.Head		=	"Wicce Petasos +2"
+    EMPY.Body		=	"Wicce Coat +3"
     EMPY.Hands		=	""
-    EMPY.Legs		=	""
-    EMPY.Feet		=	"Wicce Sabots +1"
+    EMPY.Legs		=	"Wicce Chausses +3"
+    EMPY.Feet		=	"Wicce Sabots +2"
     
 
     TelBod = {}
@@ -204,6 +204,7 @@ function get_sets()
 
 	MerlHead = {}
 	MerlHead.MB = { name="Merlinic Hood", augments={'Mag. Acc.+16 "Mag.Atk.Bns."+16','Magic burst dmg.+10%','INT+7','"Mag.Atk.Bns."+8',}}
+	MerlHead.Ref = { name="Merlinic Hood", augments={'"Fast Cast"+2','Accuracy+17','"Refresh"+2',}}
 	
 	MerlBody = {}
 	MerlBody.FC = { name="Merlinic Jubbah", augments={'"Fast Cast"+7','"Mag.Atk.Bns."+8',}}
@@ -211,6 +212,7 @@ function get_sets()
 	MerlLegs = {}
 	MerlLegs.MB = { name="Merlinic Shalwar", augments={'"Mag.Atk.Bns."+30','Magic burst dmg.+10%','INT+9','Mag. Acc.+5',}}
 	MerlLegs.TH = { name="Merlinic Shalwar", augments={'Accuracy+3','AGI+3','"Treasure Hunter"+2','Mag. Acc.+19 "Mag.Atk.Bns."+19',}}
+	MerlLegs.Ref = { name="Merlinic Shalwar", augments={'"Store TP"+2','Pet: CHR+15','"Refresh"+2',}}
 	
 	MerlFeet = {}
 	MerlFeet.FC = { name="Merlinic Crackows", augments={'"Mag.Atk.Bns."+9','"Fast Cast"+7',}}
@@ -247,18 +249,18 @@ function get_sets()
     -- Your idle set
     sets.me.idle.refresh = {
 		ammo		=	"Ghastly Tathlum +1",
-		head		=	"Befouled Crown",
-		body		=	"Jhakri Robe +2",
+		head		=	MerlHead.Ref,
+		body		=	EMPY.Body,
 		hands		=	MerlHands.Ref,
-		legs		=	"Assid. Pants +1",
+		legs		=	MerlLegs.Ref,
 		feet		=	"Herald's Gaiters",
 		neck		=	"Rep. Plat. Medal",
-		waist		=	"Fucho-no-Obi",
+		waist		=	"Shinjutsu-no-Obi +1",
 		right_ear	=	"Evans Earring",
 		left_ear	=	"Etiolation Earring",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
         right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
-		back=Tara.INTMAB,
+		back		=	Tara.INTMAB,
     }
 	sets.me.warder = {
 		neck 		=	"Warder's Charm +1",
@@ -270,7 +272,7 @@ function get_sets()
     sets.me.idle.dt = set_combine(sets.me.idle.refresh,{
 		ammo		=	"Crepuscular Pebble",
 		head		=	"Nyame Helm",
-		body		=	"Agwu's Robe",
+		body		=	EMPY.Body,
 		hands		=	"Nyame Gauntlets",
 		legs		=	"Nyame Flanchard",
 		feet		=	"Herald's Gaiters",
@@ -279,7 +281,7 @@ function get_sets()
 		waist		=	{name = "Shinjutsu-no-Obi +1", priority = 13},
 		left_ring	=	"Defending Ring",
         right_ring	=	{name = "Mephitas's Ring +1", priority = 11},
-		left_ear	=	"Influx Earring",
+		left_ear	=	"Influx Earring", --help keep max hp lower and avoid yellow hp
 		right_ear	=	"Nehalennia Earring",
 		back		=	Tara.INTMAB,
     })  
@@ -289,7 +291,7 @@ function get_sets()
 		head		=	{name = "Amalric Coif +1", priority = 13},
 		body		=	{name = "Amalric Doublet +1", priority = 15},
 		hands		=	MerlHands.Ref,
-		legs		=	"Assid. Pants +1",
+		legs		=	MerlLegs.Ref,
 		feet		=	{name = "Amalric Nails +1", priority = 14},
 		neck		=	"Rep. Plat. Medal",
 		waist		=	{name = "Shinjutsu-no-Obi +1", priority = 12},
@@ -325,6 +327,7 @@ function get_sets()
 		right_ring	=	{name="Chirich Ring +1", bag="wardrobe2"},
 		back		=	Tara.DEXSTP,   
 	})
+	sets.me.nuke = sets.me.idle.refresh 
 	------------------------------------------------------------------------------------------------------
 	-- Single Wield sets. -- combines from DW sets
 	-- So canjust put what will be changing when off hand is a shield
@@ -367,8 +370,8 @@ function get_sets()
 		feet		=	"Amalric Nails +1",
 		neck		=	"Nodens Gorget",
 		waist		=	"Shinjutsu-no-Obi +1",
-		left_ear	=	{ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
-		right_ear	=	"Etiolation Earring",
+		left_ear	=	"Etiolation Earring",
+		right_ear	=	{ name="Moonshade Earring", augments={'Accuracy+4','TP Bonus +250',}},
 		left_ring	=	"Mephitas's Ring",
 		right_ring	=	"Mephitas's Ring +1",
 		back		=	"Aurist's Cape +1",
@@ -505,6 +508,9 @@ function get_sets()
     sets.midcast.Orpheus = {
         waist="Orpheus's Sash", 
     }  
+	sets.midcast.Ja ={
+		legs = EMPY.Legs,
+	}
 	-----------------------------------------------------------------------------------------------
 	-- Helix sets automatically derives from casting sets. SO DONT PUT ANYTHING IN THEM other than:
 	-- Pixie in DarkHelix
@@ -542,16 +548,13 @@ function get_sets()
     }
 
     sets.midcast.nuking.normal = {
-        --main		=	"Maxentius",
-        --sub		=	"Ammurapi Shield",
-    
         ammo		=	"Ghastly Tathlum +1",
-		head		=	"Agwu's Cap",
+		head		=	"Agwu's Cap",--empy +3
 		body		=	AF.Body,
-        hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
-        neck		=	"Sibyl Scarf",
+        hands		=	"Agwu's Gages", --empy +3
+		legs		=	EMPY.Legs,
+		feet		=	"Agwu's Pigaches", --empy+3
+        neck		=	"Src. Stole +2",
         waist		=	"Acuity Belt +1",
         left_ear	=	"Regal Earring",
         right_ear	=	"Malignance Earring",
@@ -563,22 +566,22 @@ function get_sets()
     -- Pieces to swap from freen nuke to Magic Burst
     sets.midcast.MB.normal = set_combine(sets.midcast.nuking.normal, {
 		ammo		=	"Ghastly Tathlum +1",
-        head		=	"Ea Hat +1",-- switch to agwu at r25
+        head		=	"Ea Hat +1",--go agwu at r25 and after empy +3 legs
 		body		=	AF.Body,
         hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
-        neck		=	"Mizu. Kubikazari",
+		legs		=	EMPY.Legs,
+		feet		=	"Agwu's Pigaches",--empy+3
+        neck		=	"Src. Stole +2",
     })
-	
+	--acc set has become non AF body set for higher damage
     sets.midcast.nuking.acc = {
 		ammo		=	"Ghastly Tathlum +1",
-		head		=	"Agwu's Cap",
-        body		=	"Agwu's Robe",
-        hands		=	"Agwu's Gages",
-		legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
-        neck		=	"Sibyl Scarf",
+		head		=	"Agwu's Cap",--empy +3
+        body		=	EMPY.Body,
+        hands		=	"Agwu's Gages",--empy +3
+		legs		=	EMPY.Legs,
+		feet		=	"Agwu's Pigaches", --empy+3
+        neck		=	"Src. Stole +2",
         waist		=	"Acuity Belt +1",
         left_ear	=	"Regal Earring",
         right_ear	=	"Malignance Earring",
@@ -590,13 +593,17 @@ function get_sets()
     -- Pieces to swap from freen nuke to Magic Burst
     sets.midcast.MB.acc = set_combine(sets.midcast.nuking.acc, {
 		ammo		=	"Ghastly Tathlum +1",
-        head		=	"Ea Hat +1",-- switch to agwu at r25
-		body		=	"Ea Houppe. +1",
-        hands		=	"Agwu's Gages",
-        legs		=	"Agwu's Slops",
-		feet		=	"Agwu's Pigaches",
-        neck		=	"Mizu. Kubikazari",
-    })	
+        head		=	"Ea Hat +1", --only wins for higher tier nukes over agwu r25
+		body		=	EMPY.Body,
+        hands		=	"Agwu's Gages", 
+        legs		=	EMPY.Legs,
+		feet		=	"Agwu's Pigaches",--empy +3
+        neck		=	"Src. Stole +2",
+    })
+	--this is to lock in max MB gear.
+	sets.midcast.nuking.MB = sets.midcast.MB.acc
+	sets.midcast.MB.MB = sets.midcast.MB.acc
+	--vagary is a thing
 	sets.midcast.nuking.naked = {
 		ammo		=	empty,
 		head		=	empty,
@@ -616,7 +623,7 @@ function get_sets()
     -- Pieces to swap from freen nuke to Magic Burst
     sets.midcast.MB.naked = set_combine(sets.midcast.nuking.naked, {
     })	
-	
+	-- mostly to support melee
 	sets.me.Occult={
 		ammo		=	"Seraphic Ampulla",
 		head		=	"Mall. Chapeau +2",
@@ -646,12 +653,12 @@ function get_sets()
 		hands		=	"Regal Cuffs",
 		legs		=	AF.Legs,
 		feet		=	RELIC.Feet,
-		neck		=	"Incanter's Torque",
+		neck		=	"Src. Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
-        left_ring	=	"Metamor. Ring +1",
-        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
+        left_ring 	= 	"Kishar Ring",
+        right_ring	=	"Metamor. Ring +1",
 		back		=	"Aurist's Cape +1",
 		}
 	sets.midcast.Enfeebling.maccINT =set_combine(sets.midcast.Enfeebling.macc, {
@@ -660,12 +667,12 @@ function get_sets()
 	--max INT and Mag Acc with Relic Legs and Feet enfeebling magic and duration is useless
 	sets.midcast["ElementalEnfeeble"]= {
 		ammo		=	"Pemphredo Tathlum",
-		head		=	"Amalric Coif +1",
-		body		=	"Amalric Doublet +1",
-		hands		=	"Regal Cuffs",
+		head		=	EMPY.Head,
+		body		=	RELIC.Body,
+		hands		=	AF.Hands,
 		legs		=	RELIC.Legs,
 		feet		=	RELIC.Feet,
-		neck		=	"Incanter's Torque",
+		neck		=	"Src. Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
@@ -683,7 +690,7 @@ function get_sets()
 		ammo		=	"Pemphredo Tathlum",
 		head		=	empty,
 		body		=	"Crepuscular Cloak",
-		hands		=	RELIC.Hands,
+		hands		=	AF.Hands,
 		legs		=	AF.Legs,
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Src. Stole +2",
@@ -774,7 +781,7 @@ function get_sets()
     })  
 
 
-    -- Phalanx
+    -- Phalanx could put some of my + phalanx gear in but would cost duration
     sets.midcast.phalanx =  set_combine(sets.midcast.enhancing.duration, {
     })
 
@@ -794,6 +801,7 @@ function get_sets()
     sets.midcast.refresh = set_combine(sets.midcast.enhancing.duration, {
 		head="Amalric Coif +1", --2
     })
+	--more duration if self targeted
 	sets.midcast.RefreshSelf = set_combine(sets.midcast.refresh ,{
 		waist		=	"Gishdubar Sash",
 		back 		=	"Grapevine Cape",
@@ -809,6 +817,7 @@ function get_sets()
 	sets.midcast["Dia III"] = sets.midcast.TH
 	sets.midcast["Dia"] = sets.midcast.TH
 	sets.midcast["Diaga"] = sets.midcast.TH
+	sets.midcast["Breakga"] = sets.midcast.TH
     sets.midcast.aquaveil = set_combine(sets.midcast.enhancing.noSwapDur, {
 		ammo		=	"Staunch Tathlum +1", 	--			11%			3% don't count tathlum if using bow
 		head		=	"Amalric Coif +1", 		--+2
@@ -830,16 +839,16 @@ function get_sets()
     sets.midcast["Drain"] = set_combine(sets.midcast.nuking, {
 		ammo		=	"Ghastly Tathlum +1",
 		head		=	"Pixie Hairpin +1",
-		body		=	"Amalric Doublet +1",
+		body		=	EMPY.Body,
 		hands		=	MerlHands.Aspir,
 		legs		=	AF.Legs,
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Erra Pendant",
 		waist		=	"Fucho-no-Obi",
-		left_ear	=	"Hirudinea Earring",
-		right_ear	=	"Etiolation Earring",
+		left_ear	=	"Mani Earring",
+		right_ear	=	"Hirudinea Earring",
 		left_ring	=	"Evanescence Ring",
-		right_ring	=	"Mephitas's Ring +1",
+		right_ring	=	"Mephitas's Ring +1",--mostly for the max mp
 		back		=	"Aurist's Cape +1",
     })
     sets.midcast["Aspir"] = sets.midcast["Drain"]
@@ -847,16 +856,16 @@ function get_sets()
     sets.midcast.cure = {} -- Leave This Empty
     -- Cure Potency
     sets.midcast.cure.normal = set_combine(sets.midcast.casting,{
-		ammo		=	"Crepuscular Pebble",
+		ammo		=	"Staunch Tathlum +1",
 		head		=	"Vanya Hood",
 		body		=	"Heka's Kalasiris",
-		hands		=	"Bokwus Gloves",
+		hands		=	TelHand.Dur,
 		legs		=	"Vanya Slops",
 		feet		=	"Vanya Clogs",
 		neck		=	"Incanter's Torque",
 		waist		=	"Shinjutsu-no-Obi +1",
-		left_ear	=	"Mendi. Earring",
-		right_ear	=	"Etiolation Earring",
+		left_ear	=	"Etiolation Earring",
+		right_ear	=	"Mendi. Earring",
         left_ring	=	{name="Stikini Ring +1", bag="wardrobe"},
         right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	"Aurist's Cape +1",
