@@ -171,6 +171,8 @@ keybinds_off['key_bind_mburst'] = '       '
 keybinds_off['key_bind_regen'] = '       '
 keybinds_off['key_bind_element_cycle'] = '       '
 keybinds_off['key_bind_sc_level'] = '       '
+keybinds_off['key_bind_mainweapon'] = '       '
+keybinds_off['key_bind_subweapon'] = '       '
 keybinds_off['key_bind_lock_weapon'] = '       '
 keybinds_off['key_bind_movespeed_lock'] = '        '
 keybinds_off['key_bind_matchsc'] = '        '
@@ -184,8 +186,8 @@ function validateTextInformation()
         main_text_hub.player_current_idle = idleModes.current
     end
     main_text_hub.player_current_casting = nukeModes.current
-    main_text_hub.player_current_mainweapon = mainWeapon.current
-    main_text_hub.player_current_subweapon = subWeapon.current
+	main_text_hub.player_current_mainweapon = mainWeapon.current
+	main_text_hub.player_current_subweapon = subWeapon.current
     main_text_hub.toggle_element_cycle = elements.current
     main_text_hub.player_current_regen = regenModes.current    
     main_text_hub.toggle_sc_level = wantedSc
@@ -456,8 +458,8 @@ Buff =
         ['Celerity'] = false,
         ['Alacrity'] = false,
         ['Klimaform'] = false,
-        ['Sublimation: Activated'] = false
-	['Sublimation: Complete'] = false
+        ['Sublimation: Activated'] = false,
+		['Sublimation: Complete'] = false
     }
     
 -- Get a spell mapping for the spell.
@@ -477,12 +479,12 @@ function update_active_strategems(name, gain)
     Buff['Celerity'] = buffactive['Celerity'] or false
     Buff['Alacrity'] = buffactive['Alacrity'] or false
     Buff['Klimaform'] = buffactive['Klimaform'] or false
-    Buff['Sublimation: Activated'] = buffactive['Sublimation: Activated'] or false
-    Buff['Sublimation: Complete'] = buffactive['Sublimation: Complete'] or false
+	Buff['Sublimation: Activated'] = buffactive['Sublimation: Activated'] or false
+	Buff['Sublimation: Complete'] = buffactive['Sublimation: Complete'] or false
 end
 
 function update_sublimation()
-    Buff['Sublimation: Activated'] = buffactive['Sublimation: Activated'] or false
+    --Buff['Sublimation: Activated'] = buffactive['Sublimation: Activated'] or false
     if Buff['Sublimation: Activated'] then
         refreshType = "sublimation"
     else
@@ -499,9 +501,6 @@ function buff_refresh(name,buff_details)
     -- Update SCH statagems when a buff refreshes.
     update_active_strategems()
     update_sublimation()
-    if name == 'Sublimation: Complete' and gain then
-	idle()
-    end
     if use_UI == true then
         validateTextInformation()
     end
@@ -511,23 +510,23 @@ function buff_change(name,gain,buff_details)
     -- Update SCH statagems when a buff is gained or lost.
     update_active_strategems()
     update_sublimation()
-    if name == 'Sublimation: Complete' and gain then
-	idle()
-    end
+	if name == 'Sublimation: Complete' and gain then
+		idle()
+	end
     if use_UI == true then
         validateTextInformation()
     end
-    if (name == "sleep" and gain) and player.hp > 2 and player.sub_job ~= 'PLD' then 
+	if (name == "sleep" and gain) and player.hp > 2 and player.sub_job ~= 'PLD' then 
         equip(sets.Sleep)
         if buffactive['Stoneskin'] then
             windower.ffxi.cancel_buff(37) 
         end
-    elseif name == "sleep" then
-	if player.sub_job == 'WHM' then
-		send_command('input /ma "Curaga" <me>')
-	else
-		idle()
-	end
+	elseif name == "sleep" then
+		if player.sub_job == 'WHM' then
+			send_command('input /ma "Curaga" <me>')
+		else
+			idle()
+		end
     end
 end
  
@@ -544,7 +543,7 @@ function precast(spell)
         downgradenuke(spell)
 		add_to_chat(8, '****** ['..spell.name..' CANCELED - Spell on Cooldown, Downgrading spell] ******')
         return
-    end  
+    end 
     -- Moving on to other types of magic
     if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' or spell.type == 'BlueMagic' or spell.type == 'Trust' then
      
@@ -576,14 +575,24 @@ function precast(spell)
     -- This way we don't need to write a load of different code for different abilities, just make a set
      
     if sets.precast[spell.name] then
-        equip(sets.precast[spell.name])        
+		if spell.name == "Impact" then--these were added to stop bubbles causing problems
+			equip(sets.precast[spell.name])
+			send_command('gs disable body')
+			send_command('gs disable head')
+		elseif spell.name == "Dispelga" then
+			equip(sets.precast[spell.name])
+			send_command('gs disable main')
+			send_command('gs disable sub')
+		else
+			equip(sets.precast[spell.name])
+		end
     end
     -- extends Fast cast set with Grimoire recast aligned 
-    if buffactive['addendum: black'] or buffactive['dark arts'] then
+    if buffactive['Addendum: Black'] or buffactive['Dark Arts'] then
         if spell.type == 'BlackMagic' and player.sub_job == 'RDM' and spell.name ~= 'Impact' and spell.name ~= 'Stun' then
             equip(sets.precast.grimoire)            
         end
-    elseif buffactive['addendum: white'] or buffactive['light arts'] then
+    elseif buffactive['Addendum: White'] or buffactive['Light Arts'] then
         if spell.type == 'WhiteMagic' and player.sub_job == 'RDM' then
             equip(sets.precast.grimoire)            
         end
@@ -637,9 +646,6 @@ function midcast(spell)
 			end
         elseif spell.name:match('Regen') then
             equip(sets.midcast.regen[regenModes.current])
-			if spell.target.name == 'Bubblesandsongs' then
-				windower.send_command('send Bubblesandsongs //gs c nuke sendregen')
-			end
         elseif spell.name:match('Aquaveil') then
             equip(sets.midcast.aquaveil)
         elseif spell.name:match('Stoneskin') then
@@ -661,11 +667,11 @@ function midcast(spell)
 
     -- And our catch all, if a set exists for this spell name, use it
     if sets.midcast[spell.name] then
-        if nukeModes.current == 'occult' and spell.name == 'Impact' then
-		equip(sets.midcast.OccImpact)
-	else
-		equip(sets.midcast[spell.name])
-	end
+		if nukeModes.current == 'occult' and spell.name == 'Impact' then
+			equip(sets.midcast.OccImpact)
+		else
+			equip(sets.midcast[spell.name])
+		end
     -- Catch all for tiered spells (use mapping), basically if no set for spell name, check set for spell mapping. AKA Drain works for all Drain tiers.
     elseif sets.midcast[spellMap] then
         equip(sets.midcast[spellMap])
@@ -817,7 +823,7 @@ function midcast(spell)
     end
  -- Put the JSE in place.
     if spell.action_type == 'Magic' then
-	apply_klimaform(spell, action, spellMap) 
+		apply_klimaform(spell, action, spellMap) 
         apply_grimoire_bonuses(spell, action, spellMap)
     end
 	
@@ -825,10 +831,17 @@ end
  
 function aftercast(spell) 
     -- Then initiate idle function to check which set should be equipped
+	if spell.name == "Impact" then
+		send_command('gs enable body')
+		send_command('gs enable head')
+	elseif spell.name == "Dispelga" then
+		send_command('gs enable main')
+		send_command('gs enable sub')
+	end
     update_active_strategems()
     update_sublimation()
 	if spell.name == 'Sublimation' and not buffactive['Sublimation: Activated'] then
-		if buffactive["Sublimation: Complete"] then
+		if buffactive['Sublimation: Complete'] then
 			equip(sets.me.idle[idleModes.value])
 		else
 			equip(sets.me.idle.sublimation)
@@ -846,9 +859,9 @@ function idle()
     if (meleeing.current and player.status=='Engaged') then   
         -- We're engaged and meleeing
         equip(sets.me.melee) 
-	if player.TP > 2900  and not buffactive['Aftermath: Lv.2']then --for mythic am2
-		equip(sets.me.chrys)
-	end
+		if player.TP > 2900  and not buffactive['Aftermath: Lv.2'] and mainWeapon.current == 'Tupsimati' then
+			equip(sets.me.chrys)
+		end
     else
         -- If we are building sublimation, then we swap refresh to sublimation style idle.
         if buffactive['Sublimation: Activated'] then
@@ -861,17 +874,17 @@ function idle()
         else
             equip(sets.me.idle[idleModes.value])             
         end
-	if player.TP > 2600 and player.TP <= 2900 and not buffactive['Aftermath: Lv.2'] then --stop gaining tp
-		equip(sets.me.warder)
-	elseif player.TP > 2900 and not buffactive['Aftermath: Lv.2'] then
-		equip(sets.me.chrys)
-	end
+		if player.TP > 2600 and player.TP <= 2900 and not buffactive['Aftermath: Lv.2'] and mainWeapon.current == 'Tupsimati'then --stop gaining tp
+			equip(sets.me.warder)
+		elseif player.TP > 2900 and not buffactive['Aftermath: Lv.2'] and mainWeapon.current == 'Tupsimati' then
+			equip(sets.me.chrys)
+		end
     end
     -- Checks MP for Fucho-no-Obi
     if player.mpp < 51 and not buffactive['Sublimation: Activated'] then
-        equip(sets.me.latent_refresh)   
+        equip(sets.me.latent_refresh)          
     end
-    equip({main = mainWeapon.current, sub = subWeapon.current})
+	equip({main = mainWeapon.current, sub = subWeapon.current})
 end
  
 function status_change(new,old)
@@ -936,7 +949,23 @@ function self_command(command)
                     validateTextInformation()
                 else
                     windower.add_to_chat(8,"----- Regen Mode Now focus on: "..tostring(regenModes.current)) 
-                end     
+                end 
+			elseif commandArgs[2] == 'mainweapon' then
+                mainWeapon:cycle()
+                idle()
+                if use_UI == true then
+                    validateTextInformation()
+                else
+                    windower.add_to_chat(4,"----- Main Weapon set now: "..tostring(mainWeapon.value))
+                end
+			elseif commandArgs[2] == 'subweapon' then
+                subWeapon:cycle()
+                idle()
+                if use_UI == true then
+                    validateTextInformation()
+                else
+                    windower.add_to_chat(4,"----- Sub Weapons set now: "..tostring(subWeapon.value))
+                end				
             elseif commandArgs[2] == 'nukemode' then
                 nukeModes:cycle()               
                 if use_UI == true then                    
@@ -994,11 +1023,11 @@ function self_command(command)
                 return              
             else        
                 -- Leave out target; let Shortcuts auto-determine it.
-                if (nuke == 't5' or nuke == 't4') and not buffactive['Addendum: Black'] then
-			send_command('@input /ma "'..nukes.t3[elements.current]..'"') 
-		else
-			send_command('@input /ma "'..nukes[nuke][elements.current]..'"')
-		end 
+				if (nuke == 't5' or nuke == 't4') and not buffactive['Addendum: Black'] then
+					send_command('@input /ma "'..nukes.t3[elements.current]..'"') 
+				else
+					send_command('@input /ma "'..nukes[nuke][elements.current]..'"')
+				end
             end
         elseif commandArgs[1]:lower() == 'sc' then
             if not commandArgs[2] then
@@ -1124,15 +1153,12 @@ function apply_grimoire_bonuses(spell, action, spellMap)
     if Buff['Perpetuance'] and spell.type =='WhiteMagic' and spell.skill == 'Enhancing Magic' and spell.name ~= 'Aquaveil' then --aqua uses regal gauntlets for potency
         equip(sets.buff['Perpetuance'])
     end
-	if Buff['Accession'] and spell.type =='WhiteMagic' and spell.skill == 'Enhancing Magic' then
-		if spell.name == 'Aquaveil' then
-			equip(sets.midcast.aquaAOE)
-		else
-			equip(sets.buff['Accession'])
-		end
-		if spell.name == 'Phalanx' then
-			windower.send_command('send Bubblesandsongs //gs c nuke sendphalanx')
-		end
+    if Buff['Accession'] and spell.type =='WhiteMagic' and spell.skill == 'Enhancing Magic' then
+	if spell.name == 'Aquaveil' then
+		equip(sets.midcast.aquaAOE)
+	else
+		equip(sets.buff['Accession'])
+	end
     end
     if Buff['Rapture'] and (spellMap == 'Cure' or spellMap == 'Curaga') then
         equip(sets.buff['Rapture'])
@@ -1178,7 +1204,7 @@ function handle_strategems(cmdParams)
     if strategem == 'light' then
         if buffactive['light arts'] then
             send_command('input /ja "Addendum: White" <me>')
-        elseif buffactive['addendum: white'] then
+        elseif buffactive['Addendum: White'] then
             add_to_chat(122,'Error: Addendum: White is already active.')
         else
             send_command('input /ja "Light Arts" <me>')
@@ -1186,12 +1212,12 @@ function handle_strategems(cmdParams)
     elseif strategem == 'dark' then
         if buffactive['dark arts'] then
             send_command('input /ja "Addendum: Black" <me>')
-        elseif buffactive['addendum: black'] then
+        elseif buffactive['Addendum: Black'] then
             add_to_chat(122,'Error: Addendum: Black is already active.')
         else
             send_command('input /ja "Dark Arts" <me>')
         end
-    elseif buffactive['light arts'] or buffactive['addendum: white'] then
+    elseif buffactive['light arts'] or buffactive['Addendum: White'] then
         if strategem == 'cost' then
             send_command('input /ja Penury <me>')
         elseif strategem == 'speed' then
@@ -1213,7 +1239,7 @@ function handle_strategems(cmdParams)
         else
             add_to_chat(123,'Error: Unknown strategem ['..strategem..']')
         end
-    elseif buffactive['dark arts']  or buffactive['addendum: black'] then
+    elseif buffactive['dark arts']  or buffactive['Addendum: Black'] then
         if strategem == 'cost' then
             send_command('input /ja Parsimony <me>')
         elseif strategem == 'speed' then
@@ -1449,13 +1475,15 @@ function downgradenuke( spell )
 
     if spell.name:match(nukes.t1[elements.current]) then   
         if spell.name == nukes.t5[elements.current] then
-            newspell = nukes.t4[elements.current]
+	    newspell = nukes.t4[elements.current]
         elseif spell.name == nukes.t4[elements.current] then
             newspell = nukes.t3[elements.current]
         elseif spell.name == nukes.t3[elements.current] then
             newspell = nukes.t2[elements.current]
         elseif spell.name == nukes.t2[elements.current] then
             newspell = nukes.t1[elements.current]
+		elseif spell.name == nukes.t1[elements.current] then --if I'm choosing tier 1 I probably don't want to upgrade
+            newspell = ""
         end
         send_command('input /ma "'..newspell..'"')
     end
