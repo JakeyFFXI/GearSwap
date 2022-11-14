@@ -507,6 +507,7 @@ function buff_refresh(name,buff_details)
     if use_UI == true then
         validateTextInformation()
     end
+
 end
 
 function buff_change(name,gain,buff_details)
@@ -515,17 +516,17 @@ function buff_change(name,gain,buff_details)
     if use_UI == true then
         validateTextInformation()
     end
-    if (name == "sleep" and gain) and player.hp > 2 then 
+	if (name == "sleep" and gain) and player.hp > 2 then 
         equip(sets.Sleep)
         if buffactive['Stoneskin'] then
             windower.ffxi.cancel_buff(37) 
         end
-    elseif name == "sleep" then
-	if player.sub_job == 'WHM' then
-		send_command('input /ma "Curaga" <me>')
-	else
-		idle()
-	end
+	elseif name == "sleep" then
+		if player.sub_job == 'WHM' then
+			send_command('input /ma "Curaga" <me>')
+		else
+			idle()
+		end
     end
 end
  
@@ -589,7 +590,17 @@ function precast(spell,action)
     -- catch all here, if the set exists for an ability, use it
     -- This way we don't need to write a load of different code for different abilities, just make a set
     if sets.precast[spell.name] then
-        equip(sets.precast[spell.name])        
+        if spell.name == "Impact" then--these were added to stop bubbles causing problems
+			equip(sets.precast[spell.name])
+			send_command('gs disable body')
+			send_command('gs disable head')
+		elseif spell.name == "Dispelga" then
+			equip(sets.precast[spell.name])
+			send_command('gs disable main')
+			send_command('gs disable sub')
+		else
+			equip(sets.precast[spell.name])
+		end
     end
 end
  
@@ -603,12 +614,28 @@ function midcast(spell,action)
 
     -- No need to annotate all this, it's fairly logical. Just equips the relevant sets for the relevant magic
     -- Curing
-    if spell.name:match('Cure') or spell.name:match('Cura') then
-        if spell.element == world.weather_element or spell.element == world.day_element then
-            equip(sets.midcast.cure.weather)
-		elseif spell.target.type == 'SELF' then
+     if spell.name:match('Cure') or spell.name:match('Cura') then
+        if idleModes.current == 'dt' then
+			if spell.element == world.weather_element or spell.element == world.day_element then
+				if spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+					equip(sets.midcast.cure.dtselfweather)
+				else
+					equip(sets.midcast.cure.dtweather)
+				end
+			elseif spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+				equip(sets.midcast.cure.dtself)
+			else
+				equip(sets.midcast.cure.dt)
+			end
+		elseif spell.element == world.weather_element or spell.element == world.day_element then
+			if spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
+				equip(sets.midcast.cure.selfweather)
+			else
+				equip(sets.midcast.cure.weather)
+			end
+        elseif spell.target.type == 'SELF' and spellMap ~= 'Curaga' and not Buff['Accession']then
 			equip(sets.midcast.cure.self)
-        else
+		else
             equip(sets.midcast.cure.normal)
         end
 	--ranged
@@ -663,7 +690,7 @@ function midcast(spell,action)
         end
 
     -- Enfeebling
-     elseif spell.skill == 'Enfeebling Magic' or spell.name == 'Impact' then
+    elseif spell.skill == 'Enfeebling Magic' or spell.name == 'Impact' then
         if player.status == "Engaged" then
 			equip(sets.midcast.Enfeebling[enfeebMap])
 			-- if saboteur use empy hands can clarify not to for spells that don't care about potency/duration
@@ -842,7 +869,13 @@ function midcast(spell,action)
 end
 
 function aftercast(spell) 
-
+	if spell.name == "Impact" then
+		send_command('gs enable body')
+		send_command('gs enable head')
+	elseif spell.name == "Dispelga" then
+		send_command('gs enable main')
+		send_command('gs enable sub')
+	end
     -- Then initiate idle function to check which set should be equipped
     update_active_ja()
     idle()
@@ -1446,7 +1479,7 @@ function downgradenuke( spell )
             newspell = nukes.t2[elements.current]
         elseif spell.name == nukes.t2[elements.current] then
             newspell = nukes.t1[elements.current]
-	elseif spell.name == nukes.t1[elements.current] then
+		elseif spell.name == nukes.t1[elements.current] then
             newspell = ""
         end
         send_command('input /ma "'..newspell..'"')
