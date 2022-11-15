@@ -536,7 +536,7 @@ function precast(spell)
         elseif spell.skill == 'Enhancing Magic' then
          
             equip(sets.precast.enhancing)            
-            if spell.name == 'Sneak' then
+            if spell.name == 'Sneak' and spell.target.type == 'SELF' then
                 windower.ffxi.cancel_buff(71)--[[Cancels Sneak]]
             end
 			if spell.name == 'Temper II' then
@@ -825,7 +825,7 @@ function buff_change(buff,gain)
 				send_command('gs disable main')
 			else
 				equip(sets.buff['Mana Wall'])
-				send_command('gs disable back')
+				--send_command('gs disable back') not needed once empy +3
 				send_command('gs disable feet')
 			end
         else
@@ -833,7 +833,7 @@ function buff_change(buff,gain)
 				send_command('gs enable back')
 				send_command('gs enable main')
 			else
-				send_command('gs enable back')
+				--send_command('gs enable back')
 				send_command('gs enable feet')
 			end
         end
@@ -1290,7 +1290,19 @@ end
 
 function downgradenuke( spell )
 
-    if spell.name:match(nukes.t1[elements.current]) then
+    
+	if spell.name:match(nukes.g1[elements.current]) or spell.name:match(nukes.ja[elements.current])  then
+		if spell.name == nukes.ja[elements.current] then
+			newspell2 = nukes.g3[elements.current]
+        elseif spell.name == nukes.g3[elements.current] then
+            newspell2 = nukes.g2[elements.current]
+        elseif spell.name == nukes.g2[elements.current] then
+            newspell2 = nukes.g1[elements.current]
+		elseif spell.name == nukes.g1[elements.current] then
+            newspell2 = ""
+		end
+		send_command('input /ma "'..newspell2..'"')
+    elseif spell.name:match(nukes.t1[elements.current]) then
 		if spell.name == nukes.t6[elements.current] then
 			newspell = nukes.t5[elements.current]
         elseif spell.name == nukes.t5[elements.current] then
@@ -1304,28 +1316,16 @@ function downgradenuke( spell )
         end
         send_command('input /ma "'..newspell..'"')
     end
-	if spell.name:match(nukes.g1[elements.current]) or spell.name:match(nukes.ja[elements.current])  then
-		if spell.name == nukes.ja[elements.current] then
-			newspell = nukes.g3[elements.current]
-        elseif spell.name == nukes.g3[elements.current] then
-            newspell = nukes.g2[elements.current]
-        elseif spell.name == nukes.g2[elements.current] then
-            newspell = nukes.g1[elements.current]
-		elseif spell.name == nukes.g1[elements.current] then
-            newspell = ""
-		end
-		send_command('input /ma "'..newspell..'"')
-    end
 	
 	if spell.name:match("Aspir") then   
         if spell.name == "Aspir III" then
-            newspell = "Aspir II"
+            newspell3 = "Aspir II"
         elseif spell.name == "Aspir II" then
-            newspell = "Aspir"
+            newspell3 = "Aspir"
 		elseif spell.name == "Aspir" then
-			newspell = ""
+			newspell3 = ""
         end
-        send_command('input /ma '..newspell..'')
+        send_command('input /ma '..newspell3..'')
     end
 
 end
