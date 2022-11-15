@@ -182,7 +182,7 @@ function get_sets()
     EMPY.Body		=	"Wicce Coat +3"
     EMPY.Hands		=	""
     EMPY.Legs		=	"Wicce Chausses +3"
-    EMPY.Feet		=	"Wicce Sabots +2"
+    EMPY.Feet		=	"Wicce Sabots +3"
     
 
     TelBod = {}
@@ -382,7 +382,7 @@ function get_sets()
 		head		=	"Pixie Hairpin +1",
 		body		=	"Nyame Mail",
 		hands		=	"Jhakri Cuffs +2",
-		legs		=	"Nyame Flanchard",
+		legs		=	EMPY.Legs,
 		feet		=	"Agwu's Pigaches",
 		neck		=	"Src. Stole +2",
 		waist		=	"Orpheus's Sash",
@@ -486,8 +486,8 @@ function get_sets()
     sets.precast["Manafont"] = {body = RELIC.Body}
 	
 	sets.buff["Mana Wall"] = {
-		feet="Wicce Sabots +1",
-		back=Tara.INTMAB,
+		feet=EMPY.Feet,
+		--back = Tara.INTMAB,
 	}
 	sets.buff.ManaStaff = {
 		main = "Archmage's Staff",
@@ -553,7 +553,7 @@ function get_sets()
 		body		=	AF.Body,
         hands		=	"Agwu's Gages", --empy +3
 		legs		=	EMPY.Legs,
-		feet		=	"Agwu's Pigaches", --empy+3
+		feet		=	EMPY.Feet,
         neck		=	"Src. Stole +2",
         waist		=	"Acuity Belt +1",
         left_ear	=	"Regal Earring",
@@ -570,7 +570,7 @@ function get_sets()
 		body		=	AF.Body,
         hands		=	"Agwu's Gages",
 		legs		=	EMPY.Legs,
-		feet		=	"Agwu's Pigaches",--empy+3
+		feet		=	EMPY.Feet,
         neck		=	"Src. Stole +2",
     })
 	--acc set has become non AF body set for higher damage
@@ -580,7 +580,7 @@ function get_sets()
         body		=	EMPY.Body,
         hands		=	"Agwu's Gages",--empy +3
 		legs		=	EMPY.Legs,
-		feet		=	"Agwu's Pigaches", --empy+3
+		feet		=	EMPY.Feet,
         neck		=	"Src. Stole +2",
         waist		=	"Acuity Belt +1",
         left_ear	=	"Regal Earring",
@@ -597,7 +597,7 @@ function get_sets()
 		body		=	EMPY.Body,
         hands		=	"Agwu's Gages", 
         legs		=	EMPY.Legs,
-		feet		=	"Agwu's Pigaches",--empy +3
+		feet		=	EMPY.Feet,
         neck		=	"Src. Stole +2",
     })
 	--this is to lock in max MB gear.
@@ -648,11 +648,11 @@ function get_sets()
 	--Type A-pure macc no potency mod for sleep silence dispel Frazzle II
     sets.midcast.Enfeebling.macc = {
 		ammo		=	"Pemphredo Tathlum",
-		head		=	"Amalric Coif +1",
+		head		=	"Amalric Coif +1", --empy +3
 		body		=	AF.Body,
 		hands		=	"Regal Cuffs",
-		legs		=	AF.Legs,
-		feet		=	RELIC.Feet,
+		legs		=	EMPY.Legs,
+		feet		=	EMPY.Feet,
 		neck		=	"Src. Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
@@ -668,16 +668,16 @@ function get_sets()
 	sets.midcast["ElementalEnfeeble"]= {
 		ammo		=	"Pemphredo Tathlum",
 		head		=	EMPY.Head,
-		body		=	RELIC.Body,
+		body		=	AF.Body,
 		hands		=	AF.Hands,
-		legs		=	RELIC.Legs,
+		legs		=	RELIC.Legs, --agwu should be same potency but slightly more macc once r25
 		feet		=	RELIC.Feet,
 		neck		=	"Src. Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
 		right_ear	=	"Malignance Earring",
         left_ring	=	"Metamor. Ring +1",
-        right_ring	=	"Mephitas's Ring +1",
+        right_ring	=	{name="Stikini Ring +1", bag="wardrobe3"},
 		back		=	"Aurist's Cape +1",
 	
 	}
@@ -691,8 +691,8 @@ function get_sets()
 		head		=	empty,
 		body		=	"Crepuscular Cloak",
 		hands		=	AF.Hands,
-		legs		=	AF.Legs,
-		feet		=	"Agwu's Pigaches",
+		legs		=	EMPY.Legs,
+		feet		=	EMPY.Feet,
 		neck		=	"Src. Stole +2",
 		waist		=	"Acuity Belt +1",
 		left_ear	=	"Regal Earring",
